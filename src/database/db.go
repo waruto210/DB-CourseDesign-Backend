@@ -19,6 +19,7 @@ func CloseDB() {
 
 func Init() {
 	var err error = nil
+	// export DBURL="db_class:dbclassmm@/student_score?charset=utf8&parseTime=True&loc=Local"
 	db, err = gorm.Open("mysql", os.Getenv("DBURL"))
 	if err != nil {
 		panic(err)
