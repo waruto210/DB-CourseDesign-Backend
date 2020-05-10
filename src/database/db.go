@@ -24,6 +24,7 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
+	db.SingularTable(true)
 
 	if !db.HasTable(&model.User{}) {
 		db.CreateTable(&model.User{})
