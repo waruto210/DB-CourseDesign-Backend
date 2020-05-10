@@ -1,8 +1,8 @@
 package main
 
-import "db_course_design_backend/src/initRouter"
+import "db_course_design_backend/src/router"
 
 func main() {
-	router := initRouter.SetUpRouter()
-	_ = router.Run(":8080")
+	r := router.SetUpRouter()
+	_ = r.Run(":8080")
 }
