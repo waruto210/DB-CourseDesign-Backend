@@ -31,7 +31,6 @@ type ClassInfo struct {
 
 type CourseInfo struct {
 	CourseNo string `gorm:"column:course_no;primary_key;not null"`
-	CourseName string `gorm:"column:course_name;not null"`
 	TeaNo    string `gorm:"column:tea_no"`
 	CourseName string `gorm:"column:course_name"`
 }
