@@ -1,9 +1,17 @@
 package router
 
-import "github.com/gin-gonic/gin"
+import (
+	"db_course_design_backend/src/handler"
+	"db_course_design_backend/src/middleware"
+	"github.com/gin-gonic/gin"
+)
 
 func SetUpRouter() *gin.Engine {
 	router := gin.Default()
-	// todo
+	router.Use(middleware.JWT())
+
+	apiv1 := router.Group("/api/v1")
+	apiv1.POST("login", handler.Login)
+
 	return router
 }
