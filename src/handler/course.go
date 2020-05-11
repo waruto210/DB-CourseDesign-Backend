@@ -17,7 +17,7 @@ func GetCourse(c *gin.Context) {
 
 	code := e.SUCCESS
 	claims, _ := utils.ParseToken(c.Request.Header.Get(e.HEADER_AUTHORIZATION))
-	teacherNo := claims.Audience
+	teacherNo := claims.Id
 	if db.GetDB().Where(&model.TeacherInfo{TeaNo: teacherNo}).First(&model.TeacherInfo{}).RecordNotFound() {
 		code = e.ERROR_USER_TYPE
 		c.JSON(http.StatusOK, model.GetResutByCode(code))

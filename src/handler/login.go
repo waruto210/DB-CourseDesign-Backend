@@ -32,7 +32,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateToken(loginParam.UserId)
+	token, err := utils.GenerateToken(loginParam.UserId, string(user.UserType))
 	if err != nil {
 		log.Printf("cannot generate token for %s, because: %s", loginParam.UserId, err)
 		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR))

@@ -8,11 +8,11 @@ import (
 	"time"
 )
 
-func GenerateToken(userid string) (string, error) {
+func GenerateToken(userid , usetype string) (string, error) {
 	nowTime := time.Now().Unix()
 	expireTime := nowTime + int64(config.Duration)
 	claims := jwt.StandardClaims{
-		Audience:  userid,
+		Audience:  usetype,
 		ExpiresAt: expireTime,
 		Id:        userid,
 		IssuedAt:  nowTime,
