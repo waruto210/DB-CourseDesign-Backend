@@ -15,9 +15,9 @@ type User struct {
 }
 
 type StudentInfo struct {
-	StuNo   string `gorm:"column:stu_no;primary_key;not null"`
-	StuName string `gorm:"column:stu_name"`
-	ClassNo string `gorm:"column:class_no"`
+	StuNo   string `json:"stu_no";gorm:"column:stu_no;primary_key;not null"`
+	StuName string `json:"stu_name";gorm:"column:stu_name"`
+	ClassNo string `json:"class_no";gorm:"column:class_no"`
 }
 
 type TeacherInfo struct {
