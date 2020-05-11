@@ -7,6 +7,8 @@ const (
 
 	KEY_STU_NO   = "stu_no"
 	KEY_STU_NAME = "stu_name"
+	KEY_TEA_NO   = "tea_no"
+	KEY_TEA_NAME = "tea_name"
 	KEY_CLASS_NO = "class_no"
 
 	HEADER_AUTHORIZATION = "Authorization"

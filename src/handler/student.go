@@ -16,6 +16,12 @@ func StudentCreate(c *gin.Context) {
 		return
 	}
 
+	// TODO use Transaction?
+	if err := CreateUser(student.StuNo, model.USERTYPE_STUDENT); err != nil {
+		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_EXIST))
+		return
+	}
+
 	if err := db.GetDB().Create(&student).Error; err != nil {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_EXIST))
 		return
