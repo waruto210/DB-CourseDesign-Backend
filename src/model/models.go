@@ -15,13 +15,13 @@ type User struct {
 }
 
 type StudentInfo struct {
-	StuNo   string `json:"stu_no";gorm:"column:stu_no;primary_key;not null"`
+	StuNo   string `json:"stu_no";gorm:"column:stu_no;not null"`
 	StuName string `json:"stu_name";gorm:"column:stu_name"`
 	ClassNo string `json:"class_no";gorm:"column:class_no"`
 }
 
 type TeacherInfo struct {
-	TeaNo   string `gorm:"column:tea_no;primary_key;not null"`
+	TeaNo   string `gorm:"column:tea_no;not null"`
 	TeaName string `gorm:"column:tea_name"`
 }
 
@@ -33,14 +33,15 @@ type CourseInfo struct {
 	CourseNo string `gorm:"column:course_no;primary_key;not null"`
 	CourseName string `gorm:"column:course_name;not null"`
 	TeaNo    string `gorm:"column:tea_no"`
+	CourseName string `gorm:"column:course_name"`
 }
 
 type StudentCourse struct {
-	StuNo    string `gorm:"column:stu_no;primary_key;not null"`
-	CourseNo string `gorm:"column:course_no;primary_key;not null"`
+	StuNo    string `gorm:"column:stu_no;not null"`
+	CourseNo string `gorm:"column:course_no;not null"`
 	Score    int    `gorm:"column:score"`
 }
 
 type Admin struct {
-	AdminNo string `gorm:"column:admin_no;primary_key;not null"`
+	AdminNo string `gorm:"column:admin_no;not null;"`
 }
