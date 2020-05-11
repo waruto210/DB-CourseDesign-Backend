@@ -55,5 +55,3 @@ func CheckPasswd(passwd string, hashed string) bool {
 	}
 	return true
 }
-
-

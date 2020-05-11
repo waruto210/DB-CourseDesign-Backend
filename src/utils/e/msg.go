@@ -5,6 +5,8 @@ var MsgFlags = map[int]string{
 	SUCCESS:                         "ok",
 	ERROR:                           "fail",
 	INVALID_PARAMS:                  "请求参数错误",
+	ACCESS_FORBIDDEN:				 "您没有权限访问该信息",
+
 	ERROR_USER_NOT_EXIST:			 "用户不存在",
 	ERROR_PASSWD_NOT_MATCH:			 "用户名与密码不一致",
 
