@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 type LoginParam struct {
@@ -18,7 +19,7 @@ type LoginParam struct {
 func Login(c *gin.Context) {
 	loginParam := LoginParam{}
 
-	if c.BindJSON(&loginParam) != nil || loginParam.UserId == "" || loginParam.Passwd == ""{
+	if c.BindJSON(&loginParam) != nil || loginParam.UserId == "" || loginParam.Passwd == "" {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
 		return
 	}
@@ -32,7 +33,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateToken(loginParam.UserId, string(user.UserType))
+	token, err := utils.GenerateToken(loginParam.UserId, strconv.Itoa(int(user.UserType)))
 	if err != nil {
 		log.Printf("cannot generate token for %s, because: %s", loginParam.UserId, err)
 		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR))
@@ -40,7 +41,9 @@ func Login(c *gin.Context) {
 	}
 	result := model.GetResutByCode(e.SUCCESS)
 	result.Data = gin.H{
-		"token": token,
+		"token":         token,
+		e.KEY_USERID:    loginParam.UserId,
+		e.KEY_USER_TYPE: user.UserType,
 	}
 	c.JSON(http.StatusOK, result)
 }
