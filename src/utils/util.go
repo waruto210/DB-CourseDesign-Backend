@@ -5,14 +5,15 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 	bcrypt "golang.org/x/crypto/bcrypt"
 	"log"
+	"strconv"
 	"time"
 )
 
-func GenerateToken(userid string) (string, error) {
+func GenerateToken(userid string, userType int) (string, error) {
 	nowTime := time.Now().Unix()
 	expireTime := nowTime + int64(config.Duration)
 	claims := jwt.StandardClaims{
-		Audience:  userid,
+		Audience:  strconv.Itoa(userType),
 		ExpiresAt: expireTime,
 		Id:        userid,
 		IssuedAt:  nowTime,
@@ -55,5 +56,3 @@ func CheckPasswd(passwd string, hashed string) bool {
 	}
 	return true
 }
-
-

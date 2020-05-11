@@ -6,6 +6,7 @@ import (
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -27,7 +28,9 @@ func JWT() gin.HandlerFunc {
 			} else if time.Now().Unix() > claims.ExpiresAt {
 				result.Code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
 			} else {
+				userType, _ := strconv.Atoi(claims.Audience)
 				c.Set(e.KEY_USERID, claims.Id)
+				c.Set(e.KEY_USER_TYPE, userType)
 			}
 		}
 		if result.Code != e.SUCCESS && !strings.Contains(c.Request.URL.Path, "login") {
