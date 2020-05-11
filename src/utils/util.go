@@ -3,10 +3,10 @@ package utils
 import (
 	"db_course_design_backend/src/config"
 	jwt "github.com/dgrijalva/jwt-go"
+	bcrypt "golang.org/x/crypto/bcrypt"
 	"log"
 	"time"
 )
-
 
 func GenerateToken(userid string) (string, error) {
 	nowTime := time.Now().Unix()
@@ -23,7 +23,7 @@ func GenerateToken(userid string) (string, error) {
 
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token, err := tokenClaims.SignedString(config.Secret)
-	log.Println("token: ", token )
+	log.Println("token: ", token)
 	return token, err
 }
 
@@ -39,3 +39,21 @@ func ParseToken(token string) (*jwt.StandardClaims, error) {
 	}
 	return nil, err
 }
+
+func HashPasswd(passwd string) (string, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(passwd), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hash), err
+}
+
+func CheckPasswd(passwd string, hashed string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashed), []byte(passwd))
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+
