@@ -7,6 +7,7 @@ const (
 	KEY_STU_NO = "stu_no"
 	KEY_STU_NAME = "stu_name"
 	KEY_CLASS_NO = "class_no"
+	KEY_COURSE_NO = "course_no"
 
 	HEADER_AUTHORIZATION = "Authorization"
 )

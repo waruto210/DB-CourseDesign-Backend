@@ -21,6 +21,8 @@ func SetUpRouter() *gin.Engine {
 		apiv1.DELETE("student", handler.StudentDelete)
 		apiv1.PUT("student", handler.StudentUpdate)
 		apiv1.GET("student", handler.StudentQuery)
+		apiv1.GET("course", handler.GetCourse)
+		apiv1.GET("statistics", handler.GetStatistic)
 	}
 
 
