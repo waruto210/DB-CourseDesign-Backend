@@ -17,13 +17,12 @@ func SetUpRouter() *gin.Engine {
 	apiv1 := router.Group("/api/v1")
 	{
 		apiv1.POST("login", handler.Login)
+		apiv1.POST("student", handler.StudentCreate)
+		apiv1.DELETE("student", handler.StudentDelete)
+		apiv1.PUT("student", handler.StudentUpdate)
+		apiv1.GET("student", handler.StudentQuery)
 	}
 
-
-	apiv1.POST("student", handler.StudentCreate)
-	apiv1.DELETE("student", handler.StudentDelete)
-	apiv1.PUT("student", handler.StudentUpdate)
-	apiv1.GET("student", handler.StudentQuery)
 
 	return router
 }
