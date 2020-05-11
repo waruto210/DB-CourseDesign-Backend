@@ -51,6 +51,11 @@ func Authorization() gin.HandlerFunc {
 				c.Next()
 				return
 			}
+		} else if strings.Contains(c.Request.URL.Path, "/course") && c.Request.Method == http.MethodGet {
+			if userType == int(model.USERTYPE_TEACHER) {
+				c.Next()
+				return
+			}
 		} else if strings.Contains(c.Request.URL.Path, "/login") {
 			c.Next()
 			return
