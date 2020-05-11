@@ -11,7 +11,10 @@ func SetUpRouter() *gin.Engine {
 	router.Use(middleware.JWT())
 
 	apiv1 := router.Group("/api/v1")
-	apiv1.POST("login", handler.Login)
+	{
+		apiv1.POST("login", handler.Login)
+	}
+
 
 	return router
 }
