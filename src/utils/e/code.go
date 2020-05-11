@@ -14,6 +14,6 @@ const (
 	ERROR_AUTH                     = 20004
 
 	ERROR_USER_EXIST    = 30001
-
+	ERROR_USER_TYPE = 30002
 )
 

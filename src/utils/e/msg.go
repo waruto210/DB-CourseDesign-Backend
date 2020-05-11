@@ -14,6 +14,7 @@ var MsgFlags = map[int]string{
 	ERROR_AUTH:                      "Token错误",
 
 	ERROR_USER_EXIST:                "用户已存在",
+	ERROR_USER_TYPE: 				 "用户角色错误",
 
 }
 
