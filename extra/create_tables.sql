@@ -60,6 +60,8 @@ create table student_course
     stu_no    varchar(255) not null,
     course_no varchar(255) not null,
     score     int          null,
+    constraint course_no
+        unique (course_no, stu_no),
     constraint student_course_course_info_course_no_fk
         foreign key (course_no) references course_info (course_no)
             on delete cascade,
