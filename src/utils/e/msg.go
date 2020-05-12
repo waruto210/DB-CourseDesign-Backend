@@ -18,6 +18,8 @@ var MsgFlags = map[int]string{
 	ERROR_USER_EXIST:                "用户已存在",
 	ERROR_USER_TYPE: 				 "用户角色错误",
 
+	ERROR_CLASS_EXIST:             "班级已存在",
+
 }
 
 // GetMsg get error information based on Code
