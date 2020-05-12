@@ -36,9 +36,9 @@ type CourseInfo struct {
 }
 
 type StudentCourse struct {
-	StuNo    string `gorm:"column:stu_no;not null"`
-	CourseNo string `gorm:"column:course_no;not null"`
-	Score    int    `gorm:"column:score"`
+	StuNo    string `json:"stu_no";gorm:"column:stu_no;not null"`
+	CourseNo string `json:"course_no";gorm:"column:course_no;not null"`
+	Score    int    `json:"score";gorm:"column:score"`
 }
 
 type Admin struct {

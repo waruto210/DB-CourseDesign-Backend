@@ -11,6 +11,7 @@ const (
 	KEY_TEA_NAME = "tea_name"
 	KEY_CLASS_NO = "class_no"
 	KEY_COURSE_NO = "course_no"
+	KEY_SCORE = "score"
 
 
 	HEADER_AUTHORIZATION = "Authorization"

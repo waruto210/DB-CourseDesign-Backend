@@ -38,6 +38,11 @@ func SetUpRouter() *gin.Engine {
 		apiv1.PUT("user/passwd", handler.UserPasswdUpdate)
 		apiv1.GET("user", handler.UserQuery)
 
+		apiv1.POST("studentcourse", handler.StudentCourseCreate)
+		apiv1.DELETE("studentcourse", handler.StudentCourseDelete)
+		apiv1.PUT("studentcourse", handler.StudentCourseUpdate)
+		apiv1.GET("studentcourse", handler.StudentCourseQuery)
+
 	}
 
 	return router
