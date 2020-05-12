@@ -12,7 +12,7 @@ import (
 )
 
 type LoginParam struct {
-	UserId string `json:"userid"`
+	UserId string `json:"user_id"`
 	Passwd string `json:"passwd"`
 }
 
@@ -24,13 +24,21 @@ func Login(c *gin.Context) {
 		return
 	}
 	user := model.User{}
-	if err := db.GetDB().Where(&model.User{UserId: loginParam.UserId}).First(&user).Error; err != nil {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_NOT_EXIST))
-		return
-	}
-	if !utils.CheckPasswd(loginParam.Passwd, string(user.Passwd)) {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_PASSWD_NOT_MATCH))
-		return
+
+	// special admin
+	if loginParam.UserId == "admin" && loginParam.Passwd == "admin" {
+		// TODO how to create admin account ?
+		user.UserId = "admin"
+		user.UserType = model.USERTYPE_ADMIN
+	} else {
+		if err := db.GetDB().Where(&model.User{UserId: loginParam.UserId}).First(&user).Error; err != nil {
+			c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_NOT_EXIST))
+			return
+		}
+		if !utils.CheckPasswd(loginParam.Passwd, string(user.Passwd)) {
+			c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_PASSWD_NOT_MATCH))
+			return
+		}
 	}
 	token, err := utils.GenerateToken(loginParam.UserId, strconv.Itoa(int(user.UserType)))
 	if err != nil {
