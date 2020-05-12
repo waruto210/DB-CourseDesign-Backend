@@ -19,6 +19,7 @@ create table admin
         unique (admin_no),
     constraint admin_user_user_id_fk
         foreign key (admin_no) references user (user_id)
+            on update cascade on delete cascade
 );
 
 create table student_info
@@ -28,9 +29,12 @@ create table student_info
     class_no varchar(255) null,
     constraint student_info_stu_no_uindex
         unique (stu_no),
+    constraint student_info_class_info_class_no_fk
+        foreign key (class_no) references class_info (class_no)
+            on update cascade on delete cascade,
     constraint student_info_user_user_id_fk
         foreign key (stu_no) references user (user_id)
-            on delete cascade
+            on update cascade on delete cascade
 );
 
 create table teacher_info
@@ -41,7 +45,7 @@ create table teacher_info
         unique (tea_no),
     constraint teacher_info_user_user_id_fk
         foreign key (tea_no) references user (user_id)
-            on delete cascade
+            on update cascade on delete cascade
 );
 
 create table course_info
@@ -52,7 +56,7 @@ create table course_info
     tea_no      varchar(255) null,
     constraint course_info_teacher_info_tea_no_fk
         foreign key (tea_no) references teacher_info (tea_no)
-            on delete cascade
+            on update cascade on delete cascade
 );
 
 create table student_course
@@ -64,10 +68,10 @@ create table student_course
         unique (course_no, stu_no),
     constraint student_course_course_info_course_no_fk
         foreign key (course_no) references course_info (course_no)
-            on delete cascade,
+            on update cascade on delete cascade,
     constraint student_course_student_info_stu_no_fk
         foreign key (stu_no) references student_info (stu_no)
-            on delete cascade
+            on update cascade on delete cascade
 );
 
 
