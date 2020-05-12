@@ -26,9 +26,9 @@ func Login(c *gin.Context) {
 	user := model.User{}
 
 	// special admin
-	if loginParam.UserId == "admin" && loginParam.Passwd == "admin" {
+	if loginParam.UserId == "2017211000" && loginParam.Passwd == "2017211000" {
 		// TODO how to create admin account ?
-		user.UserId = "admin"
+		user.UserId = "2017211000"
 		user.UserType = model.USERTYPE_ADMIN
 	} else {
 		if err := db.GetDB().Where(&model.User{UserId: loginParam.UserId}).First(&user).Error; err != nil {
