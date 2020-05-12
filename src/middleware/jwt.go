@@ -29,7 +29,7 @@ func JWT() gin.HandlerFunc {
 				result.Code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
 			} else {
 				userType, _ := strconv.Atoi(claims.Audience)
-				c.Set(e.KEY_USERID, claims.Id)
+				c.Set(e.KEY_USER_ID, claims.Id)
 				c.Set(e.KEY_USER_TYPE, userType)
 			}
 		}

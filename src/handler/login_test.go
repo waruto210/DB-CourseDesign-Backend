@@ -20,7 +20,7 @@ func TestLogin(t *testing.T) {
 
 	w := httptest.NewRecorder()
 	body, err:=jsoniter.MarshalToString(gin.H{
-		e.KEY_USERID: "userid",
+		e.KEY_USER_ID: "user_id",
 		e.KEY_PASSWD: "passwd",
 	})
 	if err != nil {

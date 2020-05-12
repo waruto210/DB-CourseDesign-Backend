@@ -19,7 +19,7 @@ type TeacherBody struct {
 // access control
 func Authorization() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		userId := c.GetString(e.KEY_USERID)
+		userId := c.GetString(e.KEY_USER_ID)
 		userType := c.GetInt(e.KEY_USER_TYPE)
 
 		if userType == int(model.USERTYPE_ADMIN) {

@@ -41,7 +41,7 @@ func Login(c *gin.Context) {
 	result := model.GetResutByCode(e.SUCCESS)
 	result.Data = gin.H{
 		"token":         token,
-		e.KEY_USERID:    loginParam.UserId,
+		e.KEY_USER_ID:    loginParam.UserId,
 		e.KEY_USER_TYPE: user.UserType,
 	}
 	c.JSON(http.StatusOK, result)

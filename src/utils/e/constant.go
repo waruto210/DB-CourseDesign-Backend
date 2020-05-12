@@ -1,7 +1,7 @@
 package e
 
 const (
-	KEY_USERID    = "userid"
+	KEY_USER_ID   = "user_id"
 	KEY_USER_TYPE = "user_type"
 	KEY_PASSWD    = "passwd"
 
@@ -12,7 +12,6 @@ const (
 	KEY_CLASS_NO = "class_no"
 	KEY_COURSE_NO = "course_no"
 
-	KEY_USER_ID   = "user_id"
 
 	HEADER_AUTHORIZATION = "Authorization"
 

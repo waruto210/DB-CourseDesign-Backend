@@ -14,7 +14,7 @@ type Course struct {
 }
 
 func GetCourse(c *gin.Context) {
-	teacherNo := c.GetString(e.KEY_USERID)
+	teacherNo := c.GetString(e.KEY_USER_ID)
 	var courses []model.CourseInfo
 	db.GetDB().Where(&model.CourseInfo{TeaNo: teacherNo}).Find(&courses)
 	var retCourses []Course
