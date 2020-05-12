@@ -12,6 +12,7 @@ func SetUpRouter() *gin.Engine {
 	if flag.Lookup("test.v") == nil {
 		// if it is not in testing
 		router.Use(middleware.JWT())
+		router.Use(middleware.Authorization())
 	}
 
 	apiv1 := router.Group("/api/v1")
