@@ -8,16 +8,10 @@ import (
 	"net/http"
 )
 
-type CourseParameter struct {
-	CourseNo   string `json:"course_no"`
-	CourseName string `json:"course_name"`
-	TeaNo      string `json:"tea_no"`
-}
-
 func CourseCreate(c *gin.Context) {
-	parameter := CourseParameter{}
+	parameter := model.CourseInfo{}
 
-	if c.BindJSON(&parameter) != nil || parameter.CourseNo == "" || parameter.CourseName == "" || parameter.TeaNo == "" {
+	if c.BindJSON(&parameter) != nil || (model.CourseInfo{}) == parameter {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
 		return
 	}
@@ -30,9 +24,9 @@ func CourseCreate(c *gin.Context) {
 }
 
 func CourseUpdate(c *gin.Context) {
-	parameter := CourseParameter{}
+	parameter := model.CourseInfo{}
 
-	if c.BindJSON(&parameter) != nil || parameter.CourseNo == "" || parameter.CourseName == "" || parameter.TeaNo == "" {
+	if c.BindJSON(&parameter) != nil || (model.CourseInfo{}) == parameter {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
 		return
 	}
@@ -65,27 +59,17 @@ func CourseDelete(c *gin.Context) {
 }
 
 func CourseQuery(c *gin.Context) {
-	// more parameters
-	courseNo, exist := c.GetQuery(e.KEY_COURSE_NO)
-	if exist {
-		// query one person
-		if courseNo == "" {
-			c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
-			return
-		}
-		course := model.CourseInfo{}
-		if db.GetDB().Where(&model.CourseInfo{CourseNo: courseNo}).First(&course).RecordNotFound() {
-			c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_NOT_EXIST))
-			return
-		}
-		result := model.GetResutByCode(e.SUCCESS)
-		result.Data = []model.CourseInfo{course}
-		c.JSON(http.StatusOK, result)
-	} else {
-		var courses []model.CourseInfo
-		db.GetDB().Find(&courses)
-		result := model.GetResutByCode(e.SUCCESS)
-		result.Data = courses
-		c.JSON(http.StatusOK, result)
+	courseNo, courseNoExist := c.GetQuery(e.KEY_COURSE_NO)
+	var courses []model.CourseInfo
+
+	query := db.GetDB()
+	if courseNoExist {
+		query = query.Where(&model.StudentCourse{CourseNo: courseNo})
 	}
+
+	query.Find(&courses)
+
+	result := model.GetResutByCode(e.SUCCESS)
+	result.Data = courses
+	c.JSON(http.StatusOK, result)
 }

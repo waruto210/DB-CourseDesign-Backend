@@ -19,7 +19,7 @@ type LoginParam struct {
 func Login(c *gin.Context) {
 	loginParam := LoginParam{}
 
-	if c.BindJSON(&loginParam) != nil || loginParam.UserId == "" || loginParam.Passwd == "" {
+	if c.BindJSON(&loginParam) != nil || (LoginParam{}) == loginParam {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
 		return
 	}
@@ -41,7 +41,7 @@ func Login(c *gin.Context) {
 	result := model.GetResutByCode(e.SUCCESS)
 	result.Data = gin.H{
 		"token":         token,
-		e.KEY_USER_ID:    loginParam.UserId,
+		e.KEY_USER_ID:   loginParam.UserId,
 		e.KEY_USER_TYPE: user.UserType,
 	}
 	c.JSON(http.StatusOK, result)

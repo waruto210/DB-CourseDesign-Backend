@@ -11,7 +11,7 @@ import (
 func TeacherCreate(c *gin.Context) {
 	teacher := model.TeacherInfo{}
 
-	if c.BindJSON(&teacher) != nil || teacher.TeaNo == "" || teacher.TeaName == "" {
+	if c.BindJSON(&teacher) != nil || (model.TeacherInfo{}) == teacher {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
 		return
 	}
@@ -32,7 +32,7 @@ func TeacherCreate(c *gin.Context) {
 func TeacherUpdate(c *gin.Context) {
 	teacher := model.TeacherInfo{}
 
-	if c.BindJSON(&teacher) != nil || teacher.TeaNo == "" || teacher.TeaName == "" {
+	if c.BindJSON(&teacher) != nil || (model.TeacherInfo{}) == teacher {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
 		return
 	}
@@ -65,27 +65,17 @@ func TeacherDelete(c *gin.Context) {
 }
 
 func TeacherQuery(c *gin.Context) {
-	// more parameters
-	teaNo, exist := c.GetQuery(e.KEY_TEA_NO)
-	if exist {
-		// query one person
-		if teaNo == "" {
-			c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
-			return
-		}
-		teacher := model.TeacherInfo{}
-		if db.GetDB().Where(&model.TeacherInfo{TeaNo: teaNo}).First(&teacher).RecordNotFound() {
-			c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_NOT_EXIST))
-			return
-		}
-		result := model.GetResutByCode(e.SUCCESS)
-		result.Data = []model.TeacherInfo{teacher}
-		c.JSON(http.StatusOK, result)
-	} else {
-		var teachers []model.TeacherInfo
-		db.GetDB().Find(&teachers)
-		result := model.GetResutByCode(e.SUCCESS)
-		result.Data = teachers
-		c.JSON(http.StatusOK, result)
+	teaNo, teaNoExist := c.GetQuery(e.KEY_TEA_NO)
+	var teachers []model.TeacherInfo
+
+	query := db.GetDB()
+	if teaNoExist {
+		query = query.Where(&model.TeacherInfo{TeaNo: teaNo})
 	}
+
+	query.Find(&teachers)
+
+	result := model.GetResutByCode(e.SUCCESS)
+	result.Data = teachers
+	c.JSON(http.StatusOK, result)
 }

@@ -61,13 +61,11 @@ func StudentCourseDelete(c *gin.Context) {
 }
 
 func StudentCourseQuery(c *gin.Context) {
-	// more parameters
 	courseNo, courseNoExist := c.GetQuery(e.KEY_COURSE_NO)
 	stuNo, stuNoExist := c.GetQuery(e.KEY_STU_NO)
 
-	var courses []model.StudentCourse
+	var studentCourses []model.StudentCourse
 
-	course := model.StudentCourse{}
 	query := db.GetDB()
 	if courseNoExist {
 		query = query.Where(&model.StudentCourse{CourseNo: courseNo})
@@ -76,9 +74,9 @@ func StudentCourseQuery(c *gin.Context) {
 		query = query.Where(&model.StudentCourse{StuNo: stuNo})
 	}
 
-	query.Find(&courses)
+	query.Find(&studentCourses)
 
 	result := model.GetResutByCode(e.SUCCESS)
-	result.Data = []model.StudentCourse{course}
+	result.Data = studentCourses
 	c.JSON(http.StatusOK, result)
 }
