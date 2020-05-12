@@ -21,8 +21,8 @@ type StudentInfo struct {
 }
 
 type TeacherInfo struct {
-	TeaNo   string `gorm:"column:tea_no;not null"`
-	TeaName string `gorm:"column:tea_name"`
+	TeaNo   string `json:"tea_no";gorm:"column:tea_no;not null"`
+	TeaName string `json:"tea_name";gorm:"column:tea_name"`
 }
 
 type ClassInfo struct {
