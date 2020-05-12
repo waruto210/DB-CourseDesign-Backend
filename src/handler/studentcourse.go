@@ -17,7 +17,7 @@ func StudentCourseCreate(c *gin.Context) {
 	}
 
 	if err := db.GetDB().Create(&parameter).Error; err != nil {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_EXIST))
+		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_STUDENT_COURSE_EXIST))
 		return
 	}
 	c.JSON(http.StatusOK, model.GetResutByCode(e.SUCCESS))
@@ -32,7 +32,7 @@ func StudentCourseUpdate(c *gin.Context) {
 	}
 
 	if db.GetDB().Where(&model.StudentCourse{StuNo: parameter.StuNo, CourseNo: parameter.CourseNo}).First(&model.StudentCourse{}).RecordNotFound() {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_NOT_EXIST))
+		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_STUDENT_COURSE_NOT_EXIST))
 		return
 	}
 

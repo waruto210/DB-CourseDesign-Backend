@@ -18,7 +18,15 @@ var MsgFlags = map[int]string{
 	ERROR_USER_EXIST:                "用户已存在",
 	ERROR_USER_TYPE: 				 "用户角色错误",
 
-	ERROR_CLASS_EXIST:             "班级已存在",
+	ERROR_CLASS_NOT_EXIST:			 "班级不存在",
+	ERROR_CLASS_EXIST:             	 "班级已存在",
+
+	ERROR_COURSE_NOT_EXIST:			 "课程不存在",
+	ERROR_COURSE_EXIST:				 "课程已存在",
+
+	ERROR_STUDENT_COURSE_NOT_EXIST:  "选课记录不存在",
+	ERROR_STUDENT_COURSE_EXIST:		 "选课记录已存在",
+
 
 }
 
