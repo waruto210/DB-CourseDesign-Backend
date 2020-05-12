@@ -9,9 +9,9 @@ const (
 )
 
 type User struct {
-	UserId   string   `gorm:"column:user_id;primary_key;not null"`
-	UserType UserType `gorm:"column:user_type"`
-	Passwd   []byte   `gorm:"column:passwd"`
+	UserId   string   `json:"user_id";gorm:"column:user_id;primary_key;not null"`
+	UserType UserType `json:"user_type";gorm:"column:user_type"`
+	Passwd   []byte   `json:"-";gorm:"column:passwd"`
 }
 
 type StudentInfo struct {
@@ -30,8 +30,8 @@ type ClassInfo struct {
 }
 
 type CourseInfo struct {
-	CourseNo string `gorm:"column:course_no;primary_key;not null"`
-	TeaNo    string `gorm:"column:tea_no"`
+	CourseNo   string `gorm:"column:course_no;primary_key;not null"`
+	TeaNo      string `gorm:"column:tea_no"`
 	CourseName string `gorm:"column:course_name"`
 }
 

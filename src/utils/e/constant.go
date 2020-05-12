@@ -12,6 +12,8 @@ const (
 	KEY_CLASS_NO = "class_no"
 	KEY_COURSE_NO = "course_no"
 
+	KEY_USER_ID   = "user_id"
+
 	HEADER_AUTHORIZATION = "Authorization"
 
 )

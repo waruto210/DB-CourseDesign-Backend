@@ -32,7 +32,6 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_PASSWD_NOT_MATCH))
 		return
 	}
-
 	token, err := utils.GenerateToken(loginParam.UserId, strconv.Itoa(int(user.UserType)))
 	if err != nil {
 		log.Printf("cannot generate token for %s, because: %s", loginParam.UserId, err)
