@@ -16,4 +16,6 @@ const (
 
 	HEADER_AUTHORIZATION = "Authorization"
 
+	KEY_PAGE   = "page"
+	VALUE_PAGE_SIZE_DEFAULT = 10
 )

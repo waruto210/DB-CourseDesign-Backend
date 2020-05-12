@@ -3,6 +3,7 @@ package handler
 import (
 	db "db_course_design_backend/src/database"
 	"db_course_design_backend/src/model"
+	"db_course_design_backend/src/utils"
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -66,6 +67,7 @@ func StudentDelete(c *gin.Context) {
 
 func StudentQuery(c *gin.Context) {
 	stuNo, stuNoExist := c.GetQuery(e.KEY_STU_NO)
+	page, pageExist := c.GetQuery(e.KEY_PAGE)
 	var students []model.StudentInfo
 
 	query := db.GetDB()
@@ -73,9 +75,15 @@ func StudentQuery(c *gin.Context) {
 		query = query.Where(&model.StudentInfo{StuNo: stuNo})
 	}
 
-	query.Find(&students)
-
-	result := model.GetResutByCode(e.SUCCESS)
-	result.Data = students
-	c.JSON(http.StatusOK, result)
+	if pageExist {
+		result := model.GetResutByCode(e.SUCCESS)
+		payload := utils.GenPagePayload(query, page, &students)
+		result.Data = payload
+		c.JSON(http.StatusOK, result)
+	} else {
+		query.Find(&students)
+		result := model.GetResutByCode(e.SUCCESS)
+		result.Data = students
+		c.JSON(http.StatusOK, result)
+	}
 }

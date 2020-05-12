@@ -2,13 +2,17 @@ package utils
 
 import (
 	"db_course_design_backend/src/config"
+	"db_course_design_backend/src/model"
+	"db_course_design_backend/src/utils/e"
 	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/jinzhu/gorm"
 	bcrypt "golang.org/x/crypto/bcrypt"
 	"log"
+	"strconv"
 	"time"
 )
 
-func GenerateToken(userid , usetype string) (string, error) {
+func GenerateToken(userid, usetype string) (string, error) {
 	nowTime := time.Now().Unix()
 	expireTime := nowTime + int64(config.Duration)
 	claims := jwt.StandardClaims{
@@ -54,4 +58,28 @@ func CheckPasswd(passwd string, hashed string) bool {
 		return false
 	}
 	return true
+}
+
+func GenPagePayload(query *gorm.DB, page string, container interface{}) *model.PagingData {
+	var count int
+	query.Count(&count)
+	pageSize := e.VALUE_PAGE_SIZE_DEFAULT
+	total := (count + pageSize - 1) / pageSize
+	pageNum, _ := strconv.Atoi(page)
+	if pageNum > total {
+		pageNum = total
+	}
+	if pageNum <= 0 {
+		pageNum = 1
+	}
+	offset := (pageNum - 1) * pageSize
+	limit := count - offset
+	query.Offset(offset).Limit(limit).Find(&container)
+	payload := model.PagingData{
+		Size:  limit,
+		Total: total,
+		Page:  pageNum,
+		Data:  container,
+	}
+	return &payload
 }

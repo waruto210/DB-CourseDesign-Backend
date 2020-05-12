@@ -3,6 +3,7 @@ package handler
 import (
 	db "db_course_design_backend/src/database"
 	"db_course_design_backend/src/model"
+	"db_course_design_backend/src/utils"
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -41,6 +42,8 @@ func ClassDelete(c *gin.Context) {
 
 func ClassQuery(c *gin.Context) {
 	classNo, courseNoExist := c.GetQuery(e.KEY_CLASS_NO)
+	page, pageExist := c.GetQuery(e.KEY_PAGE)
+
 	var classes []model.ClassInfo
 
 	query := db.GetDB()
@@ -48,9 +51,15 @@ func ClassQuery(c *gin.Context) {
 		query = query.Where(&model.ClassInfo{ClassNo: classNo})
 	}
 
-	query.Find(&classes)
-
-	result := model.GetResutByCode(e.SUCCESS)
-	result.Data = classes
-	c.JSON(http.StatusOK, result)
+	if pageExist {
+		result := model.GetResutByCode(e.SUCCESS)
+		payload := utils.GenPagePayload(query, page, &classes)
+		result.Data = payload
+		c.JSON(http.StatusOK, result)
+	} else {
+		query.Find(&classes)
+		result := model.GetResutByCode(e.SUCCESS)
+		result.Data = classes
+		c.JSON(http.StatusOK, result)
+	}
 }

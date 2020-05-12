@@ -66,25 +66,23 @@ func UserPasswdUpdate(c *gin.Context) {
 }
 
 func UserQuery(c *gin.Context) {
-	// more parameters
-	userId, exist := c.GetQuery(e.KEY_USER_ID)
-	if exist {
-		// query one person
-		if userId == "" {
-			c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
-			return
-		}
-		user := model.User{}
-		if db.GetDB().Where(&model.User{UserId: userId}).First(&user).RecordNotFound() {
-			c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_NOT_EXIST))
-			return
-		}
+	userId, userIdExist := c.GetQuery(e.KEY_USER_ID)
+	page, pageExist := c.GetQuery(e.KEY_PAGE)
+
+	users := []model.User{}
+
+	query := db.GetDB()
+	if userIdExist {
+		query = query.Where(&model.User{UserId: userId})
+	}
+
+	if pageExist {
 		result := model.GetResutByCode(e.SUCCESS)
-		result.Data = []model.User{user}
+		payload := utils.GenPagePayload(query, page, &users)
+		result.Data = payload
 		c.JSON(http.StatusOK, result)
 	} else {
-		var users []model.User
-		db.GetDB().Find(&users)
+		query.Find(&users)
 		result := model.GetResutByCode(e.SUCCESS)
 		result.Data = users
 		c.JSON(http.StatusOK, result)
