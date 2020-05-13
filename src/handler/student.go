@@ -18,6 +18,14 @@ func StudentCreate(c *gin.Context) {
 	}
 
 	tx := db.GetDB().Begin()
+	count := 0
+	tx.Where(&model.ClassInfo{ClassNo: student.ClassNo}).Count(&count)
+	if count == 0 {
+		tx.Rollback()
+		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_CLASS_NOT_EXIST))
+		return
+	}
+
 	if err := CreateUser(tx, student.StuNo, model.USERTYPE_STUDENT); err != nil {
 		tx.Rollback()
 		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_EXIST))
