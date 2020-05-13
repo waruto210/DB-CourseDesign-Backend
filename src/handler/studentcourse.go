@@ -104,7 +104,7 @@ func StudentCourseQuery(c *gin.Context) {
 				Score:       sc.Score,
 				CourseName:  course.CourseName,
 				TeaName:     tea.TeaName,
-				TeaNo:       tea.TeaNo,
+				TeaNo:       course.TeaNo,
 				StudentName: stu.StuName,
 			}
 		}
@@ -128,7 +128,7 @@ func StudentCourseQuery(c *gin.Context) {
 				Score:       sc.Score,
 				CourseName:  course.CourseName,
 				TeaName:     tea.TeaName,
-				TeaNo:       tea.TeaNo,
+				TeaNo:       course.TeaNo,
 				StudentName: stu.StuName,
 			}
 		}
