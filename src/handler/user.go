@@ -48,7 +48,7 @@ func UserPasswdUpdate(c *gin.Context) {
 		return
 	}
 	if userType != int(model.USERTYPE_ADMIN) {
-		if !utils.CheckPasswd(parameter.Passwd, string(user.Passwd)) { // old_passwd is wrong
+		if !utils.CheckPasswd(parameter.OldPasswd, string(user.Passwd)) { // old_passwd is wrong
 			c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR_PASSWD_NOT_MATCH))
 			return
 		}
