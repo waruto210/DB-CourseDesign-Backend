@@ -33,36 +33,36 @@ func UserPasswdUpdate(c *gin.Context) {
 	parameter := UserParameter{}
 
 	if c.BindJSON(&parameter) != nil || parameter.UserId == "" || parameter.Passwd == "" {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}
 	if userType != int(model.USERTYPE_ADMIN) { // if the current user is not admin, an old_passwd is required
 		if parameter.OldPasswd == "" {
-			c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
+			c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 			return
 		}
 	}
 	user := model.User{}
 	if db.GetDB().Where(&model.User{UserId: parameter.UserId}).First(&user).RecordNotFound() {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_NOT_EXIST))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR_USER_NOT_EXIST))
 		return
 	}
 	if userType != int(model.USERTYPE_ADMIN) {
 		if !utils.CheckPasswd(parameter.Passwd, string(user.Passwd)) { // old_passwd is wrong
-			c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_PASSWD_NOT_MATCH))
+			c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR_PASSWD_NOT_MATCH))
 			return
 		}
 	}
 
 	passwd, err := utils.HashPasswd(parameter.Passwd)
 	if err != nil {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR))
 		return
 	}
 	user.Passwd = []byte(passwd)
 	db.GetDB().Model(&model.User{}).Where(&model.User{UserId: parameter.UserId}).Update(&user)
 
-	c.JSON(http.StatusOK, model.GetResutByCode(e.SUCCESS))
+	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 	return
 }
 
@@ -78,13 +78,13 @@ func UserQuery(c *gin.Context) {
 	}
 
 	if pageExist {
-		result := model.GetResutByCode(e.SUCCESS)
+		result := model.GetResultByCode(e.SUCCESS)
 		payload := utils.GenPagePayload(query, page, &users)
 		result.Data = payload
 		c.JSON(http.StatusOK, result)
 	} else {
 		query.Find(&users)
-		result := model.GetResutByCode(e.SUCCESS)
+		result := model.GetResultByCode(e.SUCCESS)
 		result.Data = users
 		c.JSON(http.StatusOK, result)
 	}

@@ -13,33 +13,33 @@ func StudentCourseCreate(c *gin.Context) {
 	parameter := model.StudentCourse{}
 
 	if c.BindJSON(&parameter) != nil || parameter.CourseNo == "" || parameter.StuNo == "" {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}
 
 	if err := db.GetDB().Create(&parameter).Error; err != nil {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_STUDENT_COURSE_EXIST))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR_STUDENT_COURSE_EXIST))
 		return
 	}
-	c.JSON(http.StatusOK, model.GetResutByCode(e.SUCCESS))
+	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 }
 
 func StudentCourseUpdate(c *gin.Context) {
 	parameter := model.StudentCourse{}
 
 	if c.BindJSON(&parameter) != nil || parameter.CourseNo == "" || parameter.StuNo == "" {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}
 
 	if db.GetDB().Where(&model.StudentCourse{StuNo: parameter.StuNo, CourseNo: parameter.CourseNo}).First(&model.StudentCourse{}).RecordNotFound() {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_STUDENT_COURSE_NOT_EXIST))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR_STUDENT_COURSE_NOT_EXIST))
 		return
 	}
 
 	db.GetDB().Model(&model.StudentCourse{}).Where(&model.StudentCourse{StuNo: parameter.StuNo, CourseNo: parameter.CourseNo}).Update(e.KEY_SCORE, parameter.Score)
 
-	c.JSON(http.StatusOK, model.GetResutByCode(e.SUCCESS))
+	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 	return
 }
 
@@ -48,7 +48,7 @@ func StudentCourseDelete(c *gin.Context) {
 	stuNo := c.Query(e.KEY_STU_NO)
 
 	if courseNo == "" || stuNo == "" {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}
 
@@ -57,7 +57,7 @@ func StudentCourseDelete(c *gin.Context) {
 		StuNo:    stuNo,
 	})
 
-	c.JSON(http.StatusOK, model.GetResutByCode(e.SUCCESS))
+	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 	return
 }
 
@@ -77,13 +77,13 @@ func StudentCourseQuery(c *gin.Context) {
 	}
 
 	if pageExist {
-		result := model.GetResutByCode(e.SUCCESS)
+		result := model.GetResultByCode(e.SUCCESS)
 		payload := utils.GenPagePayload(query, page, &studentCourses)
 		result.Data = payload
 		c.JSON(http.StatusOK, result)
 	} else {
 		query.Find(&studentCourses)
-		result := model.GetResutByCode(e.SUCCESS)
+		result := model.GetResultByCode(e.SUCCESS)
 		result.Data = studentCourses
 		c.JSON(http.StatusOK, result)
 	}

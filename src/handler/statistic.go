@@ -18,7 +18,7 @@ func GetStatistic(c *gin.Context) {
 	code := e.SUCCESS
 	courseNo := c.Query(e.KEY_COURSE_NO)
 	if  courseNo == "" {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 	}
 	var scores []model.StudentCourse
 	db.GetDB().Where(&model.StudentCourse{CourseNo: courseNo}).Find(&scores)
@@ -70,7 +70,7 @@ func GetStatistic(c *gin.Context) {
 	max, _ := statistics.Max(&s)
 	min, _ := statistics.Min(&s)
 	rangeDiff := max - min
-	result := model.GetResutByCode(code)
+	result := model.GetResultByCode(code)
 	result.Data = retScores
 	c.JSON(http.StatusOK, gin.H{
 		"code": result.Code,

@@ -30,22 +30,6 @@ func TestStudentCreate(t *testing.T) {
 	assert.Equal(t, 200, w.Code)
 	log.Println(w.Body.String())
 }
-
-func TestStudentDelete(t *testing.T) {
-	database.Init()
-	r := router.SetUpRouter()
-
-	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("DELETE", "/api/v1/student", nil)
-	q := req.URL.Query()
-	q.Set(e.KEY_STU_NO, "2017211000")
-	req.URL.RawQuery = q.Encode()
-
-	r.ServeHTTP(w, req)
-	assert.Equal(t, 200, w.Code)
-	log.Println(w.Body.String())
-}
-
 func TestStudentQuery(t *testing.T) {
 	database.Init()
 	r := router.SetUpRouter()
@@ -69,7 +53,7 @@ func TestStudentUpdate(t *testing.T) {
 	body, _ := jsoniter.MarshalToString(gin.H{
 		e.KEY_STU_NO:   "2017211000",
 		e.KEY_STU_NAME: "张四",
-		e.KEY_CLASS_NO: "2017222222",
+		e.KEY_CLASS_NO: "2017211111",
 	})
 	req, _ := http.NewRequest("PUT", "/api/v1/student", bytes.NewBufferString(body))
 	r.ServeHTTP(w, req)
@@ -77,3 +61,21 @@ func TestStudentUpdate(t *testing.T) {
 	assert.Equal(t, 200, w.Code)
 	log.Println(w.Body.String())
 }
+
+
+func TestStudentDelete(t *testing.T) {
+	database.Init()
+	r := router.SetUpRouter()
+
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("DELETE", "/api/v1/student", nil)
+	q := req.URL.Query()
+	q.Set(e.KEY_STU_NO, "2017211000")
+	req.URL.RawQuery = q.Encode()
+
+	r.ServeHTTP(w, req)
+	assert.Equal(t, 200, w.Code)
+	log.Println(w.Body.String())
+}
+
+

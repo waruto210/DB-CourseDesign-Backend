@@ -13,22 +13,22 @@ func ClassCreate(c *gin.Context) {
 	parameter := model.ClassInfo{}
 
 	if c.BindJSON(&parameter) != nil || parameter.ClassNo == "" {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}
 
 	if err := db.GetDB().Create(&model.ClassInfo{ClassNo: parameter.ClassNo}).Error; err != nil {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_CLASS_EXIST))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR_CLASS_EXIST))
 		return
 	}
-	c.JSON(http.StatusOK, model.GetResutByCode(e.SUCCESS))
+	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 }
 
 func ClassDelete(c *gin.Context) {
 	classNo := c.Query(e.KEY_CLASS_NO)
 
 	if classNo == "" {
-		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
+		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}
 
@@ -36,7 +36,7 @@ func ClassDelete(c *gin.Context) {
 		ClassNo: classNo,
 	})
 
-	c.JSON(http.StatusOK, model.GetResutByCode(e.SUCCESS))
+	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 	return
 }
 
@@ -52,13 +52,13 @@ func ClassQuery(c *gin.Context) {
 	}
 
 	if pageExist {
-		result := model.GetResutByCode(e.SUCCESS)
+		result := model.GetResultByCode(e.SUCCESS)
 		payload := utils.GenPagePayload(query, page, &classes)
 		result.Data = payload
 		c.JSON(http.StatusOK, result)
 	} else {
 		query.Find(&classes)
-		result := model.GetResutByCode(e.SUCCESS)
+		result := model.GetResultByCode(e.SUCCESS)
 		result.Data = classes
 		c.JSON(http.StatusOK, result)
 	}
