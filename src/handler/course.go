@@ -60,6 +60,13 @@ func CourseDelete(c *gin.Context) {
 	return
 }
 
+type MoreCourseInfo struct {
+	CourseNo   string `json:"course_no"`
+	CourseName string `json:"course_name"`
+	TeaNo      string `json:"tea_no"`
+	TeaName    string `json:"tea_name"`
+}
+
 func CourseQuery(c *gin.Context) {
 	courseNo, courseNoExist := c.GetQuery(e.KEY_COURSE_NO)
 	page, pageExist := c.GetQuery(e.KEY_PAGE)
@@ -74,12 +81,37 @@ func CourseQuery(c *gin.Context) {
 	if pageExist {
 		result := model.GetResultByCode(e.SUCCESS)
 		payload := utils.GenPagePayload(query, page, &courses)
+		courseInfo := make([]MoreCourseInfo, len(courses))
+		for index, c := range courses {
+			tea := model.TeacherInfo{}
+			db.GetDB().Where(&model.TeacherInfo{TeaNo: c.TeaNo}).Select( "tea_name").First(&tea)
+
+			courseInfo[index] = MoreCourseInfo{
+				CourseNo:   c.CourseNo,
+				CourseName: c.CourseName,
+				TeaNo:      c.TeaNo,
+				TeaName:    tea.TeaName,
+			}
+		}
+		payload.Data = courseInfo
 		result.Data = payload
 		c.JSON(http.StatusOK, result)
 	} else {
 		query.Find(&courses)
 		result := model.GetResultByCode(e.SUCCESS)
-		result.Data = courses
+		courseInfo := make([]MoreCourseInfo, len(courses))
+		for index, c := range courses {
+			tea := model.TeacherInfo{}
+			db.GetDB().Where(&model.TeacherInfo{TeaNo: c.TeaNo}).Select( "tea_name").First(&tea)
+
+			courseInfo[index] = MoreCourseInfo{
+				CourseNo:   c.CourseNo,
+				CourseName: c.CourseName,
+				TeaNo:      c.TeaNo,
+				TeaName:    tea.TeaName,
+			}
+		}
+		result.Data = courseInfo
 		c.JSON(http.StatusOK, result)
 	}
 
