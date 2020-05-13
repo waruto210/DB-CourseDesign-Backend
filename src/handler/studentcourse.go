@@ -61,6 +61,15 @@ func StudentCourseDelete(c *gin.Context) {
 	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 	return
 }
+type StudentCourseInfo struct {
+	StuNo    string `json:"stu_no"`
+	CourseNo string `json:"course_no"`
+	Score    int    `json:"score"`
+	CourseName string `json:"course_name"`
+	TeaName string	`json:"tea_name"`
+	TeaNo string `json:"tea_no"`
+	StudentName string `json:"stu_name"`
+}
 
 func StudentCourseQuery(c *gin.Context) {
 	courseNo, courseNoExist := c.GetQuery(e.KEY_COURSE_NO)
@@ -80,12 +89,51 @@ func StudentCourseQuery(c *gin.Context) {
 	if pageExist {
 		result := model.GetResultByCode(e.SUCCESS)
 		payload := utils.GenPagePayload(query, page, &studentCourses)
+		studentCoursesInfo := make([]StudentCourseInfo, len(studentCourses))
+		for index, sc := range studentCourses {
+			stu := model.StudentInfo{}
+			db.GetDB().Where(&model.StudentInfo{StuNo: sc.StuNo}).Select("stu_name").First(&stu)
+			course := model.CourseInfo{}
+			db.GetDB().Where(&model.CourseInfo{CourseNo: sc.CourseNo}).Select("course_name, tea_no").First(&course)
+			tea := model.TeacherInfo{}
+			db.GetDB().Where(&model.TeacherInfo{TeaNo: course.TeaNo}).Select( "tea_name").First(&tea)
+
+			studentCoursesInfo[index] = StudentCourseInfo{
+				StuNo:       sc.StuNo,
+				CourseNo:    sc.CourseNo,
+				Score:       sc.Score,
+				CourseName:  course.CourseName,
+				TeaName:     tea.TeaName,
+				TeaNo:       tea.TeaNo,
+				StudentName: stu.StuName,
+			}
+		}
+		payload.Data = studentCoursesInfo
 		result.Data = payload
 		c.JSON(http.StatusOK, result)
 	} else {
 		query.Find(&studentCourses)
+		studentCoursesInfo := make([]StudentCourseInfo, len(studentCourses))
+		for index, sc := range studentCourses {
+			stu := model.StudentInfo{}
+			db.GetDB().Where(&model.StudentInfo{StuNo: sc.StuNo}).Select("stu_name").First(&stu)
+			course := model.CourseInfo{}
+			db.GetDB().Where(&model.CourseInfo{CourseNo: sc.CourseNo}).Select("course_name, tea_no").First(&course)
+			tea := model.TeacherInfo{}
+			db.GetDB().Where(&model.TeacherInfo{TeaNo: course.TeaNo}).Select( "tea_name").First(&tea)
+
+			studentCoursesInfo[index] = StudentCourseInfo{
+				StuNo:       sc.StuNo,
+				CourseNo:    sc.CourseNo,
+				Score:       sc.Score,
+				CourseName:  course.CourseName,
+				TeaName:     tea.TeaName,
+				TeaNo:       tea.TeaNo,
+				StudentName: stu.StuName,
+			}
+		}
 		result := model.GetResultByCode(e.SUCCESS)
-		result.Data = studentCourses
+		result.Data = studentCoursesInfo
 		c.JSON(http.StatusOK, result)
 	}
 }
