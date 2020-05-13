@@ -6,13 +6,14 @@ import (
 	"db_course_design_backend/src/utils"
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"net/http"
 )
 
 func CourseCreate(c *gin.Context) {
 	parameter := model.CourseInfo{}
 
-	if c.BindJSON(&parameter) != nil || parameter.TeaNo == "" || parameter.CourseNo == "" || parameter.CourseName == "" {
+	if c.ShouldBindBodyWith(&parameter, binding.JSON) != nil || parameter.TeaNo == "" || parameter.CourseNo == "" || parameter.CourseName == "" {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}
@@ -27,7 +28,7 @@ func CourseCreate(c *gin.Context) {
 func CourseUpdate(c *gin.Context) {
 	parameter := model.CourseInfo{}
 
-	if c.BindJSON(&parameter) != nil || parameter.TeaNo == "" || parameter.CourseNo == "" || parameter.CourseName == "" {
+	if c.ShouldBindBodyWith(&parameter, binding.JSON) != nil || parameter.TeaNo == "" || parameter.CourseNo == "" || parameter.CourseName == "" {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}

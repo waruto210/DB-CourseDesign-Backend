@@ -6,6 +6,7 @@ import (
 	"db_course_design_backend/src/utils"
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"github.com/jinzhu/gorm"
 	"net/http"
 )
@@ -32,7 +33,7 @@ func UserPasswdUpdate(c *gin.Context) {
 	userType := c.GetInt(e.KEY_USER_TYPE)
 	parameter := UserParameter{}
 
-	if c.BindJSON(&parameter) != nil || parameter.UserId == "" || parameter.Passwd == "" {
+	if c.ShouldBindBodyWith(&parameter, binding.JSON) != nil || parameter.UserId == "" || parameter.Passwd == "" {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}

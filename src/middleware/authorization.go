@@ -5,6 +5,7 @@ import (
 	"db_course_design_backend/src/model"
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"net/http"
 	"strings"
 )
@@ -51,7 +52,7 @@ func Authorization() gin.HandlerFunc {
 			}
 		} else if strings.HasSuffix(c.Request.URL.Path, "/student") && c.Request.Method == http.MethodPut {
 			body := StudentBody{}
-			if userType == int(model.USERTYPE_STUDENT) && c.BindJSON(&body) == nil && body.StuNo == userId {
+			if userType == int(model.USERTYPE_STUDENT) && c.ShouldBindBodyWith(&body, binding.JSON) == nil && body.StuNo == userId {
 				// TODO add test for this
 				c.Next()
 				return
@@ -63,7 +64,7 @@ func Authorization() gin.HandlerFunc {
 			}
 		} else if strings.HasSuffix(c.Request.URL.Path, "/teacher") && c.Request.Method == http.MethodPut {
 			body := TeacherBody{}
-			if userType == int(model.USERTYPE_TEACHER) && c.BindJSON(&body) == nil && body.TeaNo == userId {
+			if userType == int(model.USERTYPE_TEACHER) && c.ShouldBindBodyWith(&body, binding.JSON) == nil && body.TeaNo == userId {
 				c.Next()
 				return
 			}
@@ -74,7 +75,7 @@ func Authorization() gin.HandlerFunc {
 			}
 		} else if strings.HasSuffix(c.Request.URL.Path, "/user/passwd") && c.Request.Method == http.MethodPut {
 			body := UserBody{}
-			if c.BindJSON(&body) == nil && body.UserId == userId { // each user can only change their own password
+			if c.ShouldBindBodyWith(&body, binding.JSON) == nil && body.UserId == userId { // each user can only change their own password
 				c.Next()
 				return
 			}
@@ -86,7 +87,7 @@ func Authorization() gin.HandlerFunc {
 		} else if strings.HasSuffix(c.Request.URL.Path, "/studentcourse") && c.Request.Method == http.MethodPut {
 			if userType == int(model.USERTYPE_TEACHER) {
 				body := StudentCourseBody{}
-				if c.BindJSON(&body) == nil && body.CourseNo != "" {
+				if c.ShouldBindBodyWith(&body, binding.JSON) == nil && body.CourseNo != "" {
 					if count := 0; db.GetDB().Where(model.CourseInfo{CourseNo: body.CourseNo, TeaNo: userId}).Count(&count).Error == nil && count > 0 {
 						// teacher can only set score of a course which he teaches
 						c.Next()

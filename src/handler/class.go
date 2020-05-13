@@ -6,13 +6,14 @@ import (
 	"db_course_design_backend/src/utils"
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"net/http"
 )
 
 func ClassCreate(c *gin.Context) {
 	parameter := model.ClassInfo{}
 
-	if c.BindJSON(&parameter) != nil || parameter.ClassNo == "" {
+	if c.ShouldBindBodyWith(&parameter, binding.JSON) != nil || parameter.ClassNo == "" {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}

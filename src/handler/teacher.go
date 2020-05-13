@@ -6,6 +6,7 @@ import (
 	"db_course_design_backend/src/utils"
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"log"
 	"net/http"
 )
@@ -13,7 +14,7 @@ import (
 func TeacherCreate(c *gin.Context) {
 	teacher := model.TeacherInfo{}
 
-	if c.BindJSON(&teacher) != nil || teacher.TeaNo == "" || teacher.TeaName == "" {
+	if c.ShouldBindBodyWith(&teacher, binding.JSON) != nil || teacher.TeaNo == "" || teacher.TeaName == "" {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}
@@ -42,7 +43,7 @@ func TeacherCreate(c *gin.Context) {
 func TeacherUpdate(c *gin.Context) {
 	teacher := model.TeacherInfo{}
 
-	if c.BindJSON(&teacher) != nil || teacher.TeaNo == "" || teacher.TeaName == "" {
+	if c.ShouldBindBodyWith(&teacher, binding.JSON) != nil || teacher.TeaNo == "" || teacher.TeaName == "" {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}

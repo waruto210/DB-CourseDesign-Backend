@@ -6,6 +6,7 @@ import (
 	"db_course_design_backend/src/utils"
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"log"
 	"net/http"
 	"strconv"
@@ -19,7 +20,7 @@ type LoginParam struct {
 func Login(c *gin.Context) {
 	loginParam := LoginParam{}
 
-	if c.BindJSON(&loginParam) != nil || loginParam.UserId == "" || loginParam.Passwd == "" {
+	if c.ShouldBindBodyWith(&loginParam, binding.JSON) != nil || loginParam.UserId == "" || loginParam.Passwd == "" {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 		return
 	}
