@@ -12,7 +12,7 @@ const (
 	KEY_CLASS_NO = "class_no"
 	KEY_COURSE_NO = "course_no"
 	KEY_SCORE = "score"
-
+	KEY_COURSE_NAME = "course_name"
 
 	HEADER_AUTHORIZATION = "Authorization"
 
