@@ -3,9 +3,9 @@ package model
 type UserType byte
 
 const (
-	USERTYPE_STUDENT UserType = 0
-	USERTYPE_TEACHER UserType = 1
-	USERTYPE_ADMIN   UserType = 2
+	USERTYPE_STUDENT UserType = 1
+	USERTYPE_TEACHER UserType = 2
+	USERTYPE_ADMIN   UserType = 3
 )
 
 type User struct {
