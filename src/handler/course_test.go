@@ -1,4 +1,4 @@
-package handler_test
+package handler
 
 import (
 	"bytes"
@@ -14,24 +14,24 @@ import (
 	"testing"
 )
 
-func TestStudentCreate(t *testing.T) {
+func TestCourseCreate(t *testing.T) {
 	database.Init()
 	r := router.SetUpRouter()
 
 	w := httptest.NewRecorder()
 	body, _ := jsoniter.MarshalToString(gin.H{
-		e.KEY_STU_NO:   "2017211000",
-		e.KEY_STU_NAME: "张三",
-		e.KEY_CLASS_NO: "2017211111",
+		e.KEY_COURSE_NO:   "1001",
+		e.KEY_COURSE_NAME: "数据库原理",
+		e.KEY_TEA_NO: "2017211523",
 	})
-	req, _ := http.NewRequest("POST", "/api/v1/student", bytes.NewBufferString(body))
+	req, _ := http.NewRequest("POST", "/api/v1/course", bytes.NewBufferString(body))
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, 200, w.Code)
 	log.Println(w.Body.String())
 }
 
-func TestStudentDelete(t *testing.T) {
+func TestCourseDelete(t *testing.T) {
 	database.Init()
 	r := router.SetUpRouter()
 
@@ -46,7 +46,7 @@ func TestStudentDelete(t *testing.T) {
 	log.Println(w.Body.String())
 }
 
-func TestStudentQuery(t *testing.T) {
+func TestCourseQuery(t *testing.T) {
 	database.Init()
 	r := router.SetUpRouter()
 
@@ -61,7 +61,7 @@ func TestStudentQuery(t *testing.T) {
 	log.Println(w.Body.String())
 }
 
-func TestStudentUpdate(t *testing.T) {
+func TestCourseUpdate(t *testing.T) {
 	database.Init()
 	r := router.SetUpRouter()
 
