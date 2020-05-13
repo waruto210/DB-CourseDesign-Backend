@@ -74,7 +74,7 @@ func Authorization() gin.HandlerFunc {
 			}
 		} else if strings.HasSuffix(c.Request.URL.Path, "/user/passwd") && c.Request.Method == http.MethodPut {
 			body := UserBody{}
-			if userType == int(model.USERTYPE_TEACHER) && c.BindJSON(&body) == nil && body.UserId == userId { // each user can only change their own password
+			if c.BindJSON(&body) == nil && body.UserId == userId { // each user can only change their own password
 				c.Next()
 				return
 			}
