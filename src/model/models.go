@@ -26,7 +26,7 @@ type TeacherInfo struct {
 }
 
 type ClassInfo struct {
-	ClassNo string `gorm:"column:class_no;primary_key;not null"`
+	ClassNo string `json:"class_no";gorm:"column:class_no;primary_key;not null"`
 }
 
 type CourseInfo struct {
