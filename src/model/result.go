@@ -10,7 +10,7 @@ type Result struct {
 	Data    interface{} `json:"data" `
 }
 
-func GetResutByCode(code int) Result {
+func GetResultByCode(code int) Result {
 	return Result{Code: code, Message: e.GetMsg(code)}
 }
 

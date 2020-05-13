@@ -109,7 +109,7 @@ func Authorization() gin.HandlerFunc {
 			}
 		}
 
-		c.JSON(http.StatusForbidden, model.GetResutByCode(e.ACCESS_FORBIDDEN))
+		c.JSON(http.StatusForbidden, model.GetResultByCode(e.ACCESS_FORBIDDEN))
 		c.Abort()
 	}
 }
