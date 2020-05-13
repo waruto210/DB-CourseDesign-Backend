@@ -34,9 +34,9 @@ func GenerateToken(userid, usetype string) (string, error) {
 func ParseToken(token string) (*jwt.StandardClaims, error) {
 	tokenClaims, err := jwt.ParseWithClaims(token, &jwt.StandardClaims{},
 		func(token *jwt.Token) (interface{}, error) {
-			return []byte(config.Secret), nil
+			return config.Secret, nil
 		})
-	if err != nil && tokenClaims != nil {
+	if err == nil && tokenClaims != nil {
 		if claims, ok := tokenClaims.Claims.(*jwt.StandardClaims); ok && tokenClaims.Valid {
 			return claims, nil
 		}
