@@ -19,7 +19,7 @@ func StudentCreate(c *gin.Context) {
 
 	tx := db.GetDB().Begin()
 	count := 0
-	tx.Where(&model.ClassInfo{ClassNo: student.ClassNo}).Count(&count)
+	tx.Model(&model.ClassInfo{}).Where(&model.ClassInfo{ClassNo: student.ClassNo}).Count(&count)
 	if count == 0 {
 		tx.Rollback()
 		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_CLASS_NOT_EXIST))
