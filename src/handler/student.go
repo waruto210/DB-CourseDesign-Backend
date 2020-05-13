@@ -82,7 +82,7 @@ func StudentQuery(c *gin.Context) {
 	page, pageExist := c.GetQuery(e.KEY_PAGE)
 	var students []model.StudentInfo
 
-	query := db.GetDB()
+	query := db.GetDB().Model(&model.StudentInfo{})
 	if stuNoExist {
 		query = query.Where(&model.StudentInfo{StuNo: stuNo})
 	}

@@ -47,7 +47,7 @@ func ClassQuery(c *gin.Context) {
 
 	var classes []model.ClassInfo
 
-	query := db.GetDB()
+	query := db.GetDB().Model(&model.ClassInfo{})
 	if courseNoExist {
 		query = query.Where(&model.ClassInfo{ClassNo: classNo})
 	}

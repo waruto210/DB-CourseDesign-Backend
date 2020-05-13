@@ -73,7 +73,7 @@ func UserQuery(c *gin.Context) {
 
 	users := []model.User{}
 
-	query := db.GetDB()
+	query := db.GetDB().Model(&model.User{})
 	if userIdExist {
 		query = query.Where(&model.User{UserId: userId})
 	}

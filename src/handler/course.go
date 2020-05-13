@@ -66,7 +66,7 @@ func CourseQuery(c *gin.Context) {
 
 	var courses []model.CourseInfo
 
-	query := db.GetDB()
+	query := db.GetDB().Model(&model.CourseInfo{})
 	if courseNoExist {
 		query = query.Where(&model.CourseInfo{CourseNo: courseNo})
 	}

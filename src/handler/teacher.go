@@ -80,7 +80,7 @@ func TeacherQuery(c *gin.Context) {
 	page, pageExist := c.GetQuery(e.KEY_PAGE)
 	var teachers []model.TeacherInfo
 
-	query := db.GetDB()
+	query := db.GetDB().Model(&model.TeacherInfo{})
 	if teaNoExist {
 		query = query.Where(&model.TeacherInfo{TeaNo: teaNo})
 	}
