@@ -12,7 +12,7 @@ import (
 func StudentCourseCreate(c *gin.Context) {
 	parameter := model.StudentCourse{}
 
-	if c.BindJSON(&parameter) != nil || ((model.StudentCourse{}) == parameter && parameter.Score != 0) {
+	if c.BindJSON(&parameter) != nil || parameter.CourseNo == "" || parameter.StuNo == "" {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
 		return
 	}
@@ -27,7 +27,7 @@ func StudentCourseCreate(c *gin.Context) {
 func StudentCourseUpdate(c *gin.Context) {
 	parameter := model.StudentCourse{}
 
-	if c.BindJSON(&parameter) != nil || ((model.StudentCourse{}) == parameter && parameter.Score != 0) {
+	if c.BindJSON(&parameter) != nil || parameter.CourseNo == "" || parameter.StuNo == "" {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
 		return
 	}

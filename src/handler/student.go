@@ -12,7 +12,7 @@ import (
 func StudentCreate(c *gin.Context) {
 	student := model.StudentInfo{}
 
-	if c.BindJSON(&student) != nil || (model.StudentInfo{} == student) {
+	if c.BindJSON(&student) != nil || student.StuNo == "" || student.StuName == "" || student.ClassNo == "" {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
 		return
 	}
@@ -36,7 +36,7 @@ func StudentCreate(c *gin.Context) {
 func StudentUpdate(c *gin.Context) {
 	student := model.StudentInfo{}
 
-	if c.BindJSON(&student) != nil || (model.StudentInfo{} == student) {
+	if c.BindJSON(&student) != nil || student.StuNo == "" || student.StuName == "" || student.ClassNo == "" {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
 		return
 	}

@@ -12,7 +12,7 @@ import (
 func ClassCreate(c *gin.Context) {
 	parameter := model.ClassInfo{}
 
-	if c.BindJSON(&parameter) != nil || (model.ClassInfo{}) == parameter {
+	if c.BindJSON(&parameter) != nil || parameter.ClassNo == "" {
 		c.JSON(http.StatusOK, model.GetResutByCode(e.INVALID_PARAMS))
 		return
 	}
