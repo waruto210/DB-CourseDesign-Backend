@@ -6,16 +6,17 @@ import (
 	"db_course_design_backend/src/utils"
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 	"net/http"
 )
 
-func CreateUser(userid string, userType model.UserType) error {
+func CreateUser(db *gorm.DB, userid string, userType model.UserType) error {
 	passwd, err := utils.HashPasswd(userid) // init passwd with userid
 	if err != nil {
 		return err
 	}
 	user := model.User{UserId: userid, UserType: userType, Passwd: []byte(passwd)}
-	if err = db.GetDB().Create(&user).Error; err != nil {
+	if err = db.Create(&user).Error; err != nil {
 		return err
 	}
 	return nil

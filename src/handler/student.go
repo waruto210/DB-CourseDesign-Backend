@@ -17,16 +17,19 @@ func StudentCreate(c *gin.Context) {
 		return
 	}
 
-	// TODO use Transaction?
-	if err := CreateUser(student.StuNo, model.USERTYPE_STUDENT); err != nil {
+	tx := db.GetDB().Begin()
+	if err := CreateUser(tx, student.StuNo, model.USERTYPE_STUDENT); err != nil {
+		tx.Rollback()
 		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_EXIST))
 		return
 	}
 
-	if err := db.GetDB().Create(&student).Error; err != nil {
+	if err := tx.Create(&student).Error; err != nil {
+		tx.Rollback()
 		c.JSON(http.StatusOK, model.GetResutByCode(e.ERROR_USER_EXIST))
 		return
 	}
+	tx.Commit()
 	c.JSON(http.StatusOK, model.GetResutByCode(e.SUCCESS))
 }
 
@@ -57,8 +60,8 @@ func StudentDelete(c *gin.Context) {
 		return
 	}
 
-	db.GetDB().Delete(&model.StudentInfo{
-		StuNo: stuNo,
+	db.GetDB().Delete(&model.User{
+		UserId: stuNo,
 	})
 
 	c.JSON(http.StatusOK, model.GetResutByCode(e.SUCCESS))
