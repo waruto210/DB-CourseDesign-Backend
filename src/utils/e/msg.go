@@ -27,6 +27,9 @@ var MsgFlags = map[int]string{
 	ERROR_STUDENT_COURSE_NOT_EXIST:  "选课记录不存在",
 	ERROR_STUDENT_COURSE_EXIST:		 "选课记录已存在",
 
+	ERROR_TEACHER_NOT_EXIST:		 "教师不存在",
+
+	ERROR_STUDENT_NOT_EXIST:		 "学生不存在",
 
 }
 

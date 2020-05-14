@@ -18,6 +18,16 @@ func StudentCourseCreate(c *gin.Context) {
 		return
 	}
 
+	if db.GetDB().Model(&model.StudentInfo{}).Where(&model.StudentInfo{StuNo: parameter.StuNo}).First(&model.StudentInfo{}).RecordNotFound() {
+		c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR_STUDENT_NOT_EXIST))
+		return
+	}
+
+	if db.GetDB().Model(&model.CourseInfo{}).Where(&model.CourseInfo{CourseNo: parameter.CourseNo}).First(&model.CourseInfo{}).RecordNotFound() {
+		c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR_COURSE_NOT_EXIST))
+		return
+	}
+
 	if err := db.GetDB().Create(&parameter).Error; err != nil {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR_STUDENT_COURSE_EXIST))
 		return
@@ -61,13 +71,14 @@ func StudentCourseDelete(c *gin.Context) {
 	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 	return
 }
+
 type StudentCourseInfo struct {
-	StuNo    string `json:"stu_no"`
-	CourseNo string `json:"course_no"`
-	Score    int    `json:"score"`
-	CourseName string `json:"course_name"`
-	TeaName string	`json:"tea_name"`
-	TeaNo string `json:"tea_no"`
+	StuNo       string `json:"stu_no"`
+	CourseNo    string `json:"course_no"`
+	Score       int    `json:"score"`
+	CourseName  string `json:"course_name"`
+	TeaName     string `json:"tea_name"`
+	TeaNo       string `json:"tea_no"`
 	StudentName string `json:"stu_name"`
 }
 
@@ -96,7 +107,7 @@ func StudentCourseQuery(c *gin.Context) {
 			course := model.CourseInfo{}
 			db.GetDB().Where(&model.CourseInfo{CourseNo: sc.CourseNo}).Select("course_name, tea_no").First(&course)
 			tea := model.TeacherInfo{}
-			db.GetDB().Where(&model.TeacherInfo{TeaNo: course.TeaNo}).Select( "tea_name").First(&tea)
+			db.GetDB().Where(&model.TeacherInfo{TeaNo: course.TeaNo}).Select("tea_name").First(&tea)
 
 			studentCoursesInfo[index] = StudentCourseInfo{
 				StuNo:       sc.StuNo,
@@ -120,7 +131,7 @@ func StudentCourseQuery(c *gin.Context) {
 			course := model.CourseInfo{}
 			db.GetDB().Where(&model.CourseInfo{CourseNo: sc.CourseNo}).Select("course_name, tea_no").First(&course)
 			tea := model.TeacherInfo{}
-			db.GetDB().Where(&model.TeacherInfo{TeaNo: course.TeaNo}).Select( "tea_name").First(&tea)
+			db.GetDB().Where(&model.TeacherInfo{TeaNo: course.TeaNo}).Select("tea_name").First(&tea)
 
 			studentCoursesInfo[index] = StudentCourseInfo{
 				StuNo:       sc.StuNo,

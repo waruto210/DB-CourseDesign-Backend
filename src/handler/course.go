@@ -18,6 +18,11 @@ func CourseCreate(c *gin.Context) {
 		return
 	}
 
+	if db.GetDB().Model(&model.TeacherInfo{}).Where(&model.TeacherInfo{TeaNo: parameter.TeaNo}).First(&model.TeacherInfo{}).RecordNotFound() {
+		c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR_TEACHER_NOT_EXIST))
+		return
+	}
+
 	if err := db.GetDB().Create(&model.CourseInfo{CourseNo: parameter.CourseNo, CourseName: parameter.CourseName, TeaNo: parameter.TeaNo}).Error; err != nil {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.ERROR_COURSE_EXIST))
 		return
@@ -84,7 +89,7 @@ func CourseQuery(c *gin.Context) {
 		courseInfo := make([]MoreCourseInfo, len(courses))
 		for index, c := range courses {
 			tea := model.TeacherInfo{}
-			db.GetDB().Where(&model.TeacherInfo{TeaNo: c.TeaNo}).Select( "tea_name").First(&tea)
+			db.GetDB().Where(&model.TeacherInfo{TeaNo: c.TeaNo}).Select("tea_name").First(&tea)
 
 			courseInfo[index] = MoreCourseInfo{
 				CourseNo:   c.CourseNo,
@@ -102,7 +107,7 @@ func CourseQuery(c *gin.Context) {
 		courseInfo := make([]MoreCourseInfo, len(courses))
 		for index, c := range courses {
 			tea := model.TeacherInfo{}
-			db.GetDB().Where(&model.TeacherInfo{TeaNo: c.TeaNo}).Select( "tea_name").First(&tea)
+			db.GetDB().Where(&model.TeacherInfo{TeaNo: c.TeaNo}).Select("tea_name").First(&tea)
 
 			courseInfo[index] = MoreCourseInfo{
 				CourseNo:   c.CourseNo,
