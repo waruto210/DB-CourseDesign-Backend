@@ -88,7 +88,7 @@ func Authorization() gin.HandlerFunc {
 			if userType == int(model.USERTYPE_TEACHER) {
 				body := StudentCourseBody{}
 				if c.ShouldBindBodyWith(&body, binding.JSON) == nil && body.CourseNo != "" {
-					if count := 0; db.GetDB().Where(model.CourseInfo{CourseNo: body.CourseNo, TeaNo: userId}).Count(&count).Error == nil && count > 0 {
+					if count := 0; db.GetDB().Model(&model.CourseInfo{}).Where(&model.CourseInfo{CourseNo: body.CourseNo, TeaNo: userId}).Count(&count).Error == nil && count > 0 {
 						// teacher can only set score of a course which he teaches
 						c.Next()
 						return
@@ -103,7 +103,7 @@ func Authorization() gin.HandlerFunc {
 				return
 			}
 			if userType == int(model.USERTYPE_TEACHER) {
-				if count := 0; db.GetDB().Where(model.CourseInfo{CourseNo: courseNo, TeaNo: userId}).Count(&count).Error == nil && count > 0 {
+				if count := 0; db.GetDB().Model(&model.CourseInfo{}).Where(&model.CourseInfo{CourseNo: courseNo, TeaNo: userId}).Count(&count).Error == nil && count > 0 {
 					c.Next()
 					return
 				}
