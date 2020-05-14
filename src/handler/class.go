@@ -33,9 +33,9 @@ func ClassDelete(c *gin.Context) {
 		return
 	}
 
-	db.GetDB().Delete(&model.ClassInfo{
+	db.GetDB().Where(&model.ClassInfo{
 		ClassNo: classNo,
-	})
+	}).Delete(&model.ClassInfo{})
 
 	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 	return

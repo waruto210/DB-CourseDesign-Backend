@@ -52,9 +52,9 @@ func CourseDelete(c *gin.Context) {
 		return
 	}
 
-	db.GetDB().Delete(&model.CourseInfo{
+	db.GetDB().Where(&model.CourseInfo{
 		CourseNo: courseNo,
-	})
+	}).Delete(&model.CourseInfo{})
 
 	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 	return

@@ -69,9 +69,9 @@ func StudentDelete(c *gin.Context) {
 		return
 	}
 
-	db.GetDB().Delete(&model.User{
+	db.GetDB().Where(&model.User{
 		UserId: stuNo,
-	})
+	}).Delete(&model.User{})
 
 	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 	return
