@@ -21,7 +21,7 @@ func GetStatistic(c *gin.Context) {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 	}
 	var scores []model.StudentCourse
-	db.GetDB().Where(&model.StudentCourse{CourseNo: courseNo}).Find(&scores)
+	db.GetDB().Where(&model.StudentCourse{CourseNo: courseNo}).Where("score <> ?", nil).Find(&scores)
 	var retScores []ScoreMap
 	retScores = append(retScores, ScoreMap{
 		Name:  "100",
@@ -50,16 +50,16 @@ func GetStatistic(c *gin.Context) {
 
 	var s statistics.Int64
 	for _, score := range scores {
-		s = append(s, int64(score.Score))
-		if score.Score == 100 {
+		s = append(s, int64(score.Score.Int64))
+		if score.Score.Int64 == 100 {
 			retScores[0].Value += 1
-		} else if score.Score >= 90 {
+		} else if score.Score.Int64 >= 90 {
 			retScores[1].Value += 1
-		} else if score.Score >= 80 {
+		} else if score.Score.Int64 >= 80 {
 			retScores[2].Value += 1
-		} else if score.Score >= 70 {
+		} else if score.Score.Int64 >= 70 {
 			retScores[3].Value += 1
-		} else if score.Score >= 60 {
+		} else if score.Score.Int64 >= 60 {
 			retScores[4].Value += 1
 		} else {
 			retScores[5].Value += 1
