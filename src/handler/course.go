@@ -74,6 +74,7 @@ type MoreCourseInfo struct {
 
 func CourseQuery(c *gin.Context) {
 	courseNo, courseNoExist := c.GetQuery(e.KEY_COURSE_NO)
+	teaNo, teaNoExist := c.GetQuery(e.KEY_TEA_NO)
 	page, pageExist := c.GetQuery(e.KEY_PAGE)
 
 	var courses []model.CourseInfo
@@ -81,6 +82,10 @@ func CourseQuery(c *gin.Context) {
 	query := db.GetDB().Model(&model.CourseInfo{})
 	if courseNoExist {
 		query = query.Where(&model.CourseInfo{CourseNo: courseNo})
+	}
+
+	if teaNoExist {
+		query = query.Where(&model.CourseInfo{TeaNo: teaNo})
 	}
 
 	if pageExist {
