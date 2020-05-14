@@ -74,6 +74,9 @@ func GenPagePayload(query *gorm.DB, page string, container interface{}) *model.P
 	}
 	offset := (pageNum - 1) * pageSize
 	limit := count - offset
+	if limit > e.VALUE_PAGE_SIZE_DEFAULT {
+		limit = e.VALUE_PAGE_SIZE_DEFAULT
+	}
 	query.Offset(offset).Limit(limit).Find(container)
 	payload := model.PagingData{
 		Size:  limit,
