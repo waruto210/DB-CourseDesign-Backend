@@ -2,17 +2,15 @@ create table class_info
 (
     class_no varchar(255) not null
         primary key
-)
-DEFAULT CHARACTER SET = utf8;
+);
 
 create table user
 (
     user_id   varchar(255)     not null
         primary key,
-    user_type tinyint unsigned null,
-    passwd    varbinary(255)   null
-)
-DEFAULT CHARACTER SET = utf8;
+    user_type tinyint unsigned not null,
+    passwd    varbinary(255)   not null
+);
 
 create table admin
 (
@@ -22,14 +20,13 @@ create table admin
     constraint admin_user_user_id_fk
         foreign key (admin_no) references user (user_id)
             on update cascade on delete cascade
-)
-DEFAULT CHARACTER SET = utf8;
+);
 
 create table student_info
 (
     stu_no   varchar(255) not null,
-    stu_name varchar(255) null,
-    class_no varchar(255) null,
+    stu_name varchar(255) not null,
+    class_no varchar(255) not null,
     constraint student_info_stu_no_uindex
         unique (stu_no),
     constraint student_info_class_info_class_no_fk
@@ -38,32 +35,29 @@ create table student_info
     constraint student_info_user_user_id_fk
         foreign key (stu_no) references user (user_id)
             on update cascade on delete cascade
-)
-DEFAULT CHARACTER SET = utf8;
+);
 
 create table teacher_info
 (
     tea_no   varchar(255) not null,
-    tea_name varchar(255) null,
+    tea_name varchar(255) not null,
     constraint teacher_info_tea_no_uindex
         unique (tea_no),
     constraint teacher_info_user_user_id_fk
         foreign key (tea_no) references user (user_id)
             on update cascade on delete cascade
-)
-DEFAULT CHARACTER SET = utf8;
+);
 
 create table course_info
 (
     course_no   varchar(255) not null
         primary key,
-    course_name varchar(255) null,
-    tea_no      varchar(255) null,
+    course_name varchar(255) not null,
+    tea_no      varchar(255) not null,
     constraint course_info_teacher_info_tea_no_fk
         foreign key (tea_no) references teacher_info (tea_no)
             on update cascade on delete cascade
-)
-DEFAULT CHARACTER SET = utf8;
+);
 
 create table student_course
 (
@@ -78,7 +72,6 @@ create table student_course
     constraint student_course_student_info_stu_no_fk
         foreign key (stu_no) references student_info (stu_no)
             on update cascade on delete cascade
-)
-DEFAULT CHARACTER SET = utf8;
+);
 
 
