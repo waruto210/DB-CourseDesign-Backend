@@ -6,6 +6,7 @@ import (
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
 	"github.com/grd/statistics"
+	"log"
 	"net/http"
 )
 
@@ -17,12 +18,14 @@ type ScoreMap struct {
 func GetStatistic(c *gin.Context) {
 	code := e.SUCCESS
 	courseNo := c.Query(e.KEY_COURSE_NO)
+	log.Println("course_no:", courseNo)
 	if  courseNo == "" {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 	}
 	var scores []model.StudentCourse
 
-	db.GetDB().Where(&model.StudentCourse{CourseNo: courseNo}).Where("score <> ?", nil).Find(&scores)
+	db.GetDB().Where(&model.StudentCourse{CourseNo: courseNo}).Where("score is not null").Find(&scores)
+	log.Println("scores:",scores)
 	var retScores []ScoreMap
 	retScores = append(retScores, ScoreMap{
 		Name:  "100",
