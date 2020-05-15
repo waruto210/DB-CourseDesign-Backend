@@ -6,6 +6,8 @@ import (
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
 	"github.com/grd/statistics"
+	"log"
+	"math"
 	"net/http"
 )
 
@@ -21,7 +23,9 @@ func GetStatistic(c *gin.Context) {
 		c.JSON(http.StatusOK, model.GetResultByCode(e.INVALID_PARAMS))
 	}
 	var scores []model.StudentCourse
+
 	db.GetDB().Where(&model.StudentCourse{CourseNo: courseNo}).Find(&scores)
+	log.Println(scores)
 	var retScores []ScoreMap
 	retScores = append(retScores, ScoreMap{
 		Name:  "100",
@@ -67,11 +71,16 @@ func GetStatistic(c *gin.Context) {
 	}
 
 	variance := statistics.Variance(&s)
+	if math.IsNaN(variance) {
+		variance = -1
+	}
 	max, _ := statistics.Max(&s)
 	min, _ := statistics.Min(&s)
 	rangeDiff := max - min
 	result := model.GetResultByCode(code)
 	result.Data = retScores
+	log.Println(retScores)
+	log.Println("here")
 	c.JSON(http.StatusOK, gin.H{
 		"code": result.Code,
 		"message": result.Message,
