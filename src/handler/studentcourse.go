@@ -75,7 +75,7 @@ func StudentCourseDelete(c *gin.Context) {
 type StudentCourseInfo struct {
 	StuNo       string `json:"stu_no"`
 	CourseNo    string `json:"course_no"`
-	Score       int    `json:"score"`
+	Score       model.NullInt64    `json:"score"`
 	CourseName  string `json:"course_name"`
 	TeaName     string `json:"tea_name"`
 	TeaNo       string `json:"tea_no"`

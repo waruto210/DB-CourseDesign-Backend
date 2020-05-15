@@ -6,8 +6,6 @@ import (
 	"db_course_design_backend/src/utils/e"
 	"github.com/gin-gonic/gin"
 	"github.com/grd/statistics"
-	"log"
-	"math"
 	"net/http"
 )
 
@@ -24,8 +22,7 @@ func GetStatistic(c *gin.Context) {
 	}
 	var scores []model.StudentCourse
 
-	db.GetDB().Where(&model.StudentCourse{CourseNo: courseNo}).Find(&scores)
-	log.Println(scores)
+	db.GetDB().Where(&model.StudentCourse{CourseNo: courseNo}).Where("score <> ?", nil).Find(&scores)
 	var retScores []ScoreMap
 	retScores = append(retScores, ScoreMap{
 		Name:  "100",
@@ -54,33 +51,36 @@ func GetStatistic(c *gin.Context) {
 
 	var s statistics.Int64
 	for _, score := range scores {
-		s = append(s, int64(score.Score))
-		if score.Score == 100 {
+		s = append(s, int64(score.Score.Int64))
+		if score.Score.Int64 == 100 {
 			retScores[0].Value += 1
-		} else if score.Score >= 90 {
+		} else if score.Score.Int64 >= 90 {
 			retScores[1].Value += 1
-		} else if score.Score >= 80 {
+		} else if score.Score.Int64 >= 80 {
 			retScores[2].Value += 1
-		} else if score.Score >= 70 {
+		} else if score.Score.Int64 >= 70 {
 			retScores[3].Value += 1
-		} else if score.Score >= 60 {
+		} else if score.Score.Int64 >= 60 {
 			retScores[4].Value += 1
 		} else {
 			retScores[5].Value += 1
 		}
 	}
+	var rangeDiff float64 = -1
+	var variance float64 = -1
 
-	variance := statistics.Variance(&s)
-	if math.IsNaN(variance) {
-		variance = -1
+	if len(scores) > 1 {
+		variance = statistics.Variance(&s)
 	}
-	max, _ := statistics.Max(&s)
-	min, _ := statistics.Min(&s)
-	rangeDiff := max - min
+	if len(scores) > 0 {
+		max, _ := statistics.Max(&s)
+		min, _ := statistics.Min(&s)
+		rangeDiff = max - min
+	}
 	result := model.GetResultByCode(code)
 	result.Data = retScores
-	log.Println(retScores)
-	log.Println("here")
+
+
 	c.JSON(http.StatusOK, gin.H{
 		"code": result.Code,
 		"message": result.Message,
