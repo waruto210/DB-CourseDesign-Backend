@@ -62,7 +62,6 @@ func TestStudentUpdate(t *testing.T) {
 	log.Println(w.Body.String())
 }
 
-
 func TestStudentDelete(t *testing.T) {
 	database.Init()
 	r := router.SetUpRouter()
@@ -77,5 +76,3 @@ func TestStudentDelete(t *testing.T) {
 	assert.Equal(t, 200, w.Code)
 	log.Println(w.Body.String())
 }
-
-

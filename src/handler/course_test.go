@@ -38,7 +38,7 @@ func TestCourseCreate(t *testing.T) {
 	body, _ := jsoniter.MarshalToString(gin.H{
 		e.KEY_COURSE_NO:   "1001",
 		e.KEY_COURSE_NAME: "数据库原理",
-		e.KEY_TEA_NO: "2018211000",
+		e.KEY_TEA_NO:      "2018211000",
 	})
 	req, _ := http.NewRequest("POST", "/api/v1/course", bytes.NewBufferString(body))
 	r.ServeHTTP(w, req)
@@ -55,7 +55,7 @@ func TestCourseUpdate(t *testing.T) {
 	body, _ := jsoniter.MarshalToString(gin.H{
 		e.KEY_COURSE_NO:   "1001",
 		e.KEY_COURSE_NAME: "数据库原理改",
-		e.KEY_TEA_NO: "2018211000",
+		e.KEY_TEA_NO:      "2018211000",
 	})
 	req, _ := http.NewRequest("PUT", "/api/v1/course", bytes.NewBufferString(body))
 	r.ServeHTTP(w, req)
@@ -78,8 +78,6 @@ func TestCourseQuery(t *testing.T) {
 	assert.Equal(t, 200, w.Code)
 	log.Println(w.Body.String())
 }
-
-
 
 func TestCourseDelete(t *testing.T) {
 	database.Init()

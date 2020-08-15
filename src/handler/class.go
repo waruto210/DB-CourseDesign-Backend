@@ -5,9 +5,10 @@ import (
 	"db_course_design_backend/src/model"
 	"db_course_design_backend/src/utils"
 	"db_course_design_backend/src/utils/e"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"net/http"
 )
 
 func ClassCreate(c *gin.Context) {

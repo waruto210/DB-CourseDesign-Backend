@@ -20,7 +20,7 @@ func TestClassCreate(t *testing.T) {
 
 	w := httptest.NewRecorder()
 	body, _ := jsoniter.MarshalToString(gin.H{
-		e.KEY_CLASS_NO:   "2017211318",
+		e.KEY_CLASS_NO: "2017211318",
 	})
 	req, _ := http.NewRequest("POST", "/api/v1/class", bytes.NewBufferString(body))
 	r.ServeHTTP(w, req)

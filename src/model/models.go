@@ -8,7 +8,6 @@ const (
 	USERTYPE_ADMIN   UserType = 3
 )
 
-
 type User struct {
 	UserId   string   `json:"user_id" gorm:"column:user_id;primary_key;not null"`
 	UserType UserType `json:"user_type" gorm:"column:user_type"`
@@ -37,9 +36,9 @@ type CourseInfo struct {
 }
 
 type StudentCourse struct {
-	StuNo    string `json:"stu_no" gorm:"column:stu_no;not null"`
-	CourseNo string `json:"course_no" gorm:"column:course_no;not null"`
-	Score    NullInt64    `json:"score" gorm:"column:score"`
+	StuNo    string    `json:"stu_no" gorm:"column:stu_no;not null"`
+	CourseNo string    `json:"course_no" gorm:"column:course_no;not null"`
+	Score    NullInt64 `json:"score" gorm:"column:score"`
 }
 
 type Admin struct {
