@@ -1,17 +1,17 @@
 package handler_test
 
 import (
-"bytes"
-"db_course_design_backend/src/database"
-"db_course_design_backend/src/router"
-"db_course_design_backend/src/utils/e"
-"github.com/gin-gonic/gin"
-jsoniter "github.com/json-iterator/go"
-"github.com/stretchr/testify/assert"
-"log"
-"net/http"
-"net/http/httptest"
-"testing"
+	"bytes"
+	"db_course_design_backend/src/database"
+	"db_course_design_backend/src/router"
+	"db_course_design_backend/src/utils/e"
+	"github.com/gin-gonic/gin"
+	jsoniter "github.com/json-iterator/go"
+	"github.com/stretchr/testify/assert"
+	"log"
+	"net/http"
+	"net/http/httptest"
+	"testing"
 )
 
 func TestTeacherCreate(t *testing.T) {

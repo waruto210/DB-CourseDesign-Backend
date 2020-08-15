@@ -15,8 +15,8 @@ func GetResultByCode(code int) Result {
 }
 
 type PagingData struct {
-	Size 	int			`json:"size"`	// Data size
-	Total 	int			`json:"total"`	// total number of pages
-	Page	int			`json:"page"`	// current page number
-	Data 	interface{}	`json:"data"`
+	Size  int         `json:"size"`  // Data size
+	Total int         `json:"total"` // total number of pages
+	Page  int         `json:"page"`  // current page number
+	Data  interface{} `json:"data"`
 }

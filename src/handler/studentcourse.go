@@ -5,11 +5,13 @@ import (
 	"db_course_design_backend/src/model"
 	"db_course_design_backend/src/utils"
 	"db_course_design_backend/src/utils/e"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"net/http"
 )
 
+// StudentCourseCreate 新增学生选课
 func StudentCourseCreate(c *gin.Context) {
 	parameter := model.StudentCourse{}
 
@@ -35,6 +37,7 @@ func StudentCourseCreate(c *gin.Context) {
 	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 }
 
+// StudentCourseUpdate 更新学生选课
 func StudentCourseUpdate(c *gin.Context) {
 	parameter := model.StudentCourse{}
 
@@ -54,6 +57,7 @@ func StudentCourseUpdate(c *gin.Context) {
 	return
 }
 
+// StudentCourseDelete 删除学生选课
 func StudentCourseDelete(c *gin.Context) {
 	courseNo := c.Query(e.KEY_COURSE_NO)
 	stuNo := c.Query(e.KEY_STU_NO)
@@ -72,16 +76,18 @@ func StudentCourseDelete(c *gin.Context) {
 	return
 }
 
+// StudentCourseInfo记录学生选课信息
 type StudentCourseInfo struct {
-	StuNo       string `json:"stu_no"`
-	CourseNo    string `json:"course_no"`
-	Score       model.NullInt64    `json:"score"`
-	CourseName  string `json:"course_name"`
-	TeaName     string `json:"tea_name"`
-	TeaNo       string `json:"tea_no"`
-	StudentName string `json:"stu_name"`
+	StuNo       string          `json:"stu_no"`
+	CourseNo    string          `json:"course_no"`
+	Score       model.NullInt64 `json:"score"`
+	CourseName  string          `json:"course_name"`
+	TeaName     string          `json:"tea_name"`
+	TeaNo       string          `json:"tea_no"`
+	StudentName string          `json:"stu_name"`
 }
 
+// StudentCourseQuery 查询学生选课
 func StudentCourseQuery(c *gin.Context) {
 	courseNo, courseNoExist := c.GetQuery(e.KEY_COURSE_NO)
 	stuNo, stuNoExist := c.GetQuery(e.KEY_STU_NO)

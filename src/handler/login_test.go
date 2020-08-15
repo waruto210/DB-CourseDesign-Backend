@@ -19,9 +19,9 @@ func TestLogin(t *testing.T) {
 	router := router.SetUpRouter()
 
 	w := httptest.NewRecorder()
-	body, err:=jsoniter.MarshalToString(gin.H{
+	body, err := jsoniter.MarshalToString(gin.H{
 		e.KEY_USER_ID: "user_id",
-		e.KEY_PASSWD: "passwd",
+		e.KEY_PASSWD:  "passwd",
 	})
 	if err != nil {
 		panic(err)
