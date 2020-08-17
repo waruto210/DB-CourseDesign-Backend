@@ -10,6 +10,7 @@ import (
 	"net/http"
 )
 
+// 创建课程
 func CourseCreate(c *gin.Context) {
 	parameter := model.CourseInfo{}
 
@@ -30,6 +31,7 @@ func CourseCreate(c *gin.Context) {
 	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 }
 
+// 更新课程
 func CourseUpdate(c *gin.Context) {
 	parameter := model.CourseInfo{}
 
@@ -49,6 +51,7 @@ func CourseUpdate(c *gin.Context) {
 	return
 }
 
+// 删除课程
 func CourseDelete(c *gin.Context) {
 	courseNo := c.Query(e.KEY_COURSE_NO)
 
@@ -72,6 +75,7 @@ type MoreCourseInfo struct {
 	TeaName    string `json:"tea_name"`
 }
 
+// 课程查询
 func CourseQuery(c *gin.Context) {
 	courseNo, courseNoExist := c.GetQuery(e.KEY_COURSE_NO)
 	teaNo, teaNoExist := c.GetQuery(e.KEY_TEA_NO)

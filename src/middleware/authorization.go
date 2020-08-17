@@ -27,7 +27,7 @@ type StudentCourseBody struct {
 	CourseNo string `json:"course_no"`
 }
 
-// access control
+// 负责接口鉴权的中间件
 func Authorization() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userId := c.GetString(e.KEY_USER_ID)
@@ -53,7 +53,6 @@ func Authorization() gin.HandlerFunc {
 		} else if strings.HasSuffix(c.Request.URL.Path, "/student") && c.Request.Method == http.MethodPut {
 			body := StudentBody{}
 			if userType == int(model.USERTYPE_STUDENT) && c.ShouldBindBodyWith(&body, binding.JSON) == nil && body.StuNo == userId {
-				// TODO add test for this
 				c.Next()
 				return
 			}

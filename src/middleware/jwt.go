@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+// 负责身份验证的中间件
 func JWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		result := model.Result{

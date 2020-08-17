@@ -17,6 +17,7 @@ type LoginParam struct {
 	Passwd string `json:"passwd"`
 }
 
+// 用户登录
 func Login(c *gin.Context) {
 	loginParam := LoginParam{}
 
@@ -28,7 +29,6 @@ func Login(c *gin.Context) {
 
 	// special admin
 	if loginParam.UserId == "2017211000" && loginParam.Passwd == "2017211000" {
-		// TODO how to create admin account ?
 		user.UserId = "2017211000"
 		user.UserType = model.USERTYPE_ADMIN
 	} else {

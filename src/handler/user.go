@@ -11,6 +11,7 @@ import (
 	"net/http"
 )
 
+// 创建不同类型的系统用户
 func CreateUser(db *gorm.DB, userid string, userType model.UserType) error {
 	passwd, err := utils.HashPasswd(userid) // init passwd with userid
 	if err != nil {
@@ -29,6 +30,7 @@ type UserParameter struct {
 	OldPasswd string `json:"old_passwd"`
 }
 
+// 更新用户密码
 func UserPasswdUpdate(c *gin.Context) {
 	userType := c.GetInt(e.KEY_USER_TYPE)
 	parameter := UserParameter{}
@@ -67,6 +69,7 @@ func UserPasswdUpdate(c *gin.Context) {
 	return
 }
 
+// 用户查询
 func UserQuery(c *gin.Context) {
 	userId, userIdExist := c.GetQuery(e.KEY_USER_ID)
 	page, pageExist := c.GetQuery(e.KEY_PAGE)

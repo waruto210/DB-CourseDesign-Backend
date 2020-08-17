@@ -37,7 +37,7 @@ func StudentCourseCreate(c *gin.Context) {
 	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 }
 
-// StudentCourseUpdate 更新学生选课
+// StudentCourseUpdate 更新学生选课成绩
 func StudentCourseUpdate(c *gin.Context) {
 	parameter := model.StudentCourse{}
 

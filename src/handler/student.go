@@ -10,6 +10,7 @@ import (
 	"net/http"
 )
 
+// 创建学生
 func StudentCreate(c *gin.Context) {
 	student := model.StudentInfo{}
 
@@ -42,6 +43,7 @@ func StudentCreate(c *gin.Context) {
 	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 }
 
+// 修改学生
 func StudentUpdate(c *gin.Context) {
 	student := model.StudentInfo{}
 
@@ -61,6 +63,7 @@ func StudentUpdate(c *gin.Context) {
 	return
 }
 
+// 删除学生
 func StudentDelete(c *gin.Context) {
 	stuNo := c.Query(e.KEY_STU_NO)
 
@@ -77,6 +80,7 @@ func StudentDelete(c *gin.Context) {
 	return
 }
 
+// 学生查询
 func StudentQuery(c *gin.Context) {
 	stuNo, stuNoExist := c.GetQuery(e.KEY_STU_NO)
 	page, pageExist := c.GetQuery(e.KEY_PAGE)

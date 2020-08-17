@@ -11,6 +11,7 @@ import (
 	"net/http"
 )
 
+// 创建教师
 func TeacherCreate(c *gin.Context) {
 	teacher := model.TeacherInfo{}
 
@@ -40,6 +41,7 @@ func TeacherCreate(c *gin.Context) {
 	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 }
 
+// 更新教师
 func TeacherUpdate(c *gin.Context) {
 	teacher := model.TeacherInfo{}
 
@@ -59,6 +61,7 @@ func TeacherUpdate(c *gin.Context) {
 	return
 }
 
+// 删除教师
 func TeacherDelete(c *gin.Context) {
 	teaNo := c.Query(e.KEY_TEA_NO)
 
@@ -75,6 +78,7 @@ func TeacherDelete(c *gin.Context) {
 	return
 }
 
+// 教师查询
 func TeacherQuery(c *gin.Context) {
 	teaNo, teaNoExist := c.GetQuery(e.KEY_TEA_NO)
 	page, pageExist := c.GetQuery(e.KEY_PAGE)

@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin/binding"
 )
 
+// 创建班级
 func ClassCreate(c *gin.Context) {
 	parameter := model.ClassInfo{}
 
@@ -26,6 +27,7 @@ func ClassCreate(c *gin.Context) {
 	c.JSON(http.StatusOK, model.GetResultByCode(e.SUCCESS))
 }
 
+// 删除班级
 func ClassDelete(c *gin.Context) {
 	classNo := c.Query(e.KEY_CLASS_NO)
 
@@ -42,6 +44,7 @@ func ClassDelete(c *gin.Context) {
 	return
 }
 
+// 查询班级
 func ClassQuery(c *gin.Context) {
 	classNo, courseNoExist := c.GetQuery(e.KEY_CLASS_NO)
 	page, pageExist := c.GetQuery(e.KEY_PAGE)

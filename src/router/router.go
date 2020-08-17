@@ -10,11 +10,11 @@ import (
 func SetUpRouter() *gin.Engine {
 	router := gin.Default()
 	if flag.Lookup("test.v") == nil {
-		// if it is not in testing
+		// 如果不是测试环境，则启用鉴权模块
 		router.Use(middleware.JWT())
 		router.Use(middleware.Authorization())
 	}
-
+	// 初始化各个接口和对应的处理函数
 	apiv1 := router.Group("/api/v1")
 	{
 		apiv1.POST("login", handler.Login)
